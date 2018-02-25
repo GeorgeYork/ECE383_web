@@ -27,7 +27,7 @@
 <tr><td>End date:</td>		<td>March 15</td></tr>
 <tr><td>Lab:</td>		<td>3</td></tr>
 <tr><td>Status			<td bgcolor = #D0FFD0>Complete <!--<td bgcolor = #FFFFF0>Not Started--> <!--<td bgcolor = #FFD0D0>In Progress -->
-<tr><td>Lab 3 Cutsheet<td><a href="./ECE_383_Lab3_Cutsheet.pdf">ECE_383_Lab3_Cutsheet.pdf</a>
+<!--<tr><td>Lab 3 Cutsheet<td><a href="./ECE_383_Lab3_Cutsheet.pdf">ECE_383_Lab3_Cutsheet.pdf</a>-->
 </table>
 
 
@@ -157,7 +157,8 @@ the MicroBlaze will include:
 	to adjust the trigger voltage and trigger time.
 </ul>
 
-<h2>B-level Functionality</h2>
+<h2><del>B-level Functionality</del></h2>
+<h2>A-level Functionality</h2>
 <ul>
 	<li>Achieve required functionality.
 	<li>Use the ready bit of the flag register to trigger an interrupt.
@@ -166,12 +167,12 @@ the MicroBlaze will include:
 	BRAM in the oscilloscope component.
 </ul>
 
-<h2>A-level Functionality</h2>
+<h2><del>A-level Functionality</del></h2>
 <ul>
-	<li>Achieve B-level functionality.  
-	<li>Ability to enable and disable channels to display
-	<li>Ability to trigger off channel 2
-	<li>Ability to change the slope direction of the trigger.
+	<li><del>Achieve B-level functionality. </del> 
+	<li><del>Ability to enable and disable channels to display </del>
+	<li><del>Ability to trigger off channel 2</del>
+	<li><del>Ability to change the slope direction of the trigger. </del>
 </ul>
 
 
@@ -180,6 +181,9 @@ In order to achieve A functionality, this assignment requires you to use a
 single bit of Q (the std_logic_vector output from the flag register) as the
 interrupt signal.  This may require you to extract the one bit Q as a separate 
 signal to connect to the MicroBlaze in your block design. 
+
+<h2>README</h2>
+For this lab, README only needs to include evidence of completing Gate Checks 1 and 2, functionality, and A-functionality, along with the date/time achieved.
 
 <!--This will require some syntax changes as 
 documented below.
@@ -232,7 +236,7 @@ block.
 <td align="center" colspan="1">Gate Check 1</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">5</td>
+<td align="center" colspan="1">10</td>
 <td align="center" colspan="1"></td>
 <td>End of Lesson 21 </td>
 </tr>
@@ -242,7 +246,7 @@ block.
 <td align="center" colspan="1">Gate Check 2</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">5</td>
+<td align="center" colspan="1">10</td>
 <td align="center" colspan="1"></td>
 <td>End of Lesson 22 </td>
 </tr>
@@ -253,16 +257,7 @@ block.
 <td align="center" colspan="1">Required Functionality</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">30</td>
-<td align="center" colspan="1"></td>
-<td>COB L23 </td>
-</tr>
-
-<tr>
-<td align="center" colspan="1">B Functionality</td>
-<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
-<td align="center" colspan="1">10</td>
+<td align="center" colspan="1">50</td>
 <td align="center" colspan="1"></td>
 <td>COB L23 </td>
 </tr>
@@ -271,7 +266,7 @@ block.
 <td align="center" colspan="1">A Functionality</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">10</td>
+<td align="center" colspan="1">15</td>
 <td align="center" colspan="1"></td>
 <td>COB L23 </td>
 </tr>
@@ -287,7 +282,7 @@ block.
 <td align="center" colspan="1">Code Style</td>
 <td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">10</td>
+<td align="center" colspan="1">5</td>
 <td align="center" colspan="1"></td>
 <td>COB L23</td>
 </tr>
@@ -295,7 +290,7 @@ block.
 <td align="center" colspan="1">README</td>
 <td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">25</td>
+<td align="center" colspan="1">5</td>
 <td align="center" colspan="1"></td>
 <td>COB L23</td>
 </tr>
