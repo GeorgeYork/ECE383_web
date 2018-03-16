@@ -74,7 +74,9 @@ amplitude of the waveform as follows:
 <li>Pressing the right button should increase the frequency of the waveform 
 	by the amount set on the slide switches.
 </ul>
-The waveform should be played back through the Audio Codec interface. Remember to
+Interpolation between the output samples is not required.
+
+The waveform should be played back through the Audio Codec interface on the left channel. Remember to
 wait for the ready signal.
 
 <h2>B-level Functionality</h2>
@@ -83,31 +85,34 @@ wait for the ready signal.
 	by the amount set on the slide switches.
 <li>Pressing the down button should decrease the amplitude of the waveform
 	by the amount set on the slide switches.
-<li>Pressing the center button should toggle between 2-different waveforms.
+<li>Duplicate your hardware to produce a different waveform on the right channel. The left and right channels will share the same frequency and amplitude settings.
 </ul>
+Interpolation between the output samples is not required.
+
 
 <h2>A-level Functionality</h2>
-Use the microBlaze to capture a keyboard input to manipulate the amplitude and frequency.  The user
+<del>Use the microBlaze to capture a keyboard input to manipulate the amplitude and frequency.  The user
 will enter in an integer frequency and you are to produce a waveform 
-with that frequency. 
+with that frequency. </del>
+Modify the hardware for the right channel to interpolate between samples using (base + next-base)*offset) method
 
 <h2>Bonus Functionality</h2>
-Connect your A-level Function Generator hardware to your Lab 3 functionality 
-to enable the display of your generated signals on your Lab 3 O'scope display. 
+Connect your A-level Function Generator hardware to either your Lab2 or Lab 3 functionality 
+to enable the display of your generated signals on your O'scope display. 
 
 <h2>Milestone 1</h2>
 At the end of the first lab session, you should have a completed
 hardware diagram drawn in paint or another image editing software 
 that is readable and can be printed onto an 8.5x11 sheet of
 paper.  Provide me with a hardcopy of your schematic at the end of
-class.  This diagram must contain the following:
+class and upload to bitbucket.  This diagram must contain the following:
 <ul>
 <li>A border defining the top-level entity.  Borders for each of the 
 	components instantiated within the top-level entity.
 <li>All components must be named in the upper left corner.
 <li>All signals entering and exiting components must have their 
 	port name defined just inside the border.
-<li>All signals outside the components must have their width defined 
+<li>All signals outside the components must have their width defined (if more than one bit)
 	as well as be labeled with their names. 
 </ul>
 
