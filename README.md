@@ -1,4 +1,4 @@
 # ECE383 (Embedded Systems II) Course Website
 
-Live site:  <need to update this to github url?
+Live site:  https://georgeyork.github.io/ECE383_web/
 
