@@ -258,3 +258,308 @@ The README writeup should include:
 
 </body>
 </html>
+=======
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>ECE383</title>
+        <meta name="description" content="ECE 383 - Embedded Systems II with the Digilent Atlys at the United States Air Force Academy (USAFA).  Covers VHDL.  Free and open FPGA course.">
+        <meta name="author" content="Todd Branchflower">
+        <link rel='stylesheet' type='text/css' href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css'>
+        <script src='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js'></script>
+		<META HTTP-EQUIV="refresh" CONTENT="600"> <!--added this line to force page refresh every 600 seconds-->
+    </head>
+    <body>
+
+        <div class = "container">
+            <div class = "navbar navbar-inverse">
+                <div class = "navbar-inner">
+                    <a class = "brand" href="../../index.html">ECE383</a>
+                    <ul class="nav pull-right">
+                        <li><a href="../lab3/lab3.html">&ltPrev</a></li>
+                        <li><a href="../lab5/lab5.html">Next&gt</a></li>
+                    </ul>
+                </div>
+            </div>
+
+<table class="table table-striped table-bordered table-condensed">
+<tr><td>Start date:</td>	<td>March 22</td></tr>
+<tr><td>End date:</td>		<td>April 4</td></tr>
+<tr><td>Lab:</td>		<td>4</td></tr>
+<tr><td>Status			<td bgcolor = #D0FFD0>Complete <!--<td bgcolor = #FFFFF0>Not Started --> <!--<td bgcolor = #FFD0D0>In Progress -->
+</table>
+
+
+<h1>Lab 4 - Function generation</h1>
+The goal of this lab is to generate an audio waveform with a high degree
+of accuracy in both its period and frequency.  
+
+<h2>Lab Overview</h2>
+You are to use Direct Digital Synthesis to reproduce your audio waveform.
+You may choose any waveform so long as its not
+<a href="http://en.wikipedia.org/wiki/Piecewise_linear_function">Piecewise Linear</a>.
+A few interesting examples would be sinusoids, the sinc function, exponentially damped
+sinusoids, or a waveform from a musical instrument (guitar, piano, or clarinet).  It is  
+your responsibility to get the samples for this waveform.  I would suggest
+either deriving the waveform using a program like Python, using a spreadsheet, or
+digitizing the samples using Lab 3.  Once you have your data, hardwired it 
+into BRAM using "init" statements.  Consult the handout associated with 
+<a href="../../lecture/lecture24.html">lesson 24</a> for more details 
+on how to accomplish this.
+
+<h2>Requirements</h2>
+While you have the flexibility to design the waveform generator as you see 
+fit, your system must meet the following requirements:
+<ol>	<li>Use an update rate of 48kHz
+	<li>At 440Hz, the LUT should be incremented by about 1 index.
+	<li>Be able to make between a 1Hz and 0.25Hz change in frequency.  
+	<li>Be able to generate a full amplitude waveform.
+</ol>
+
+
+<h2>Hardware</h2>
+You will have to generate the block diagram for this assignment and 
+present it at the beginning of the second lab session for review by 
+your professor.  Your design must be segregated into a datapath and 
+control unit. Your design must show the blocks in the datapath,
+the states in the FSM, the control word, and the status word joining 
+the datapath and control unit.
+
+<h2>Required Functionality</h2>
+Use the slide switches and push buttons to manipulate the phase angle and the 
+amplitude of the waveform as follows:
+<ul>
+<li>Pressing the left button should decrease the frequency of the waveform
+	by the amount set on the slide switches.
+<li>Pressing the right button should increase the frequency of the waveform 
+	by the amount set on the slide switches.
+</ul>
+Interpolation between the output samples is not required.
+
+The waveform should be played back through the Audio Codec interface on the left channel. Remember to
+wait for the ready signal.
+
+<h2>B-level Functionality</h2>
+<ul>
+<li>Pressing the up button should increase the amplitude of the waveform
+	by the amount set on the slide switches.
+<li>Pressing the down button should decrease the amplitude of the waveform
+	by the amount set on the slide switches.
+<li>Duplicate your hardware to produce a different waveform on the right channel. The left and right channels will share the same frequency and amplitude settings.
+</ul>
+Interpolation between the output samples is not required.
+
+
+<h2>A-level Functionality</h2>
+<del>Use the microBlaze to capture a keyboard input to manipulate the amplitude and frequency.  The user
+will enter in an integer frequency and you are to produce a waveform 
+with that frequency. </del>
+Modify the hardware for the right channel to interpolate between samples using (base + next-base)*offset) method
+
+<h2>Bonus Functionality</h2>
+Connect your A-level Function Generator hardware to either your Lab2 or Lab 3 functionality 
+to enable the display of your generated signals on your O'scope display. 
+
+<h2>Milestone 1</h2>
+At the end of the first lab session, you should have completed your design and uploaded it to bitbucket.
+This should include the mathematical analysis you did to meet the requirements in the "Requirements" section above, concluding with the Q format required for your phase increment (like Q10.6).
+Given your Q format, show calculations for (1) the minimum frequency produced (2) the frequency produced when your phase increment is 1.0, and (3) your maximum frequency before aliasing occurs.
+It should also include the design for the items listed in the "Hardware" section above.
+The hardware diagram using BBB (Basic Building Blocks) should be drawn in paint or another image editing software 
+that is readable and can be printed onto an 8.5x11 sheet of
+paper.  Provide me with a hardcopy of your schematic at the end of
+class and upload to bitbucket.  This diagram must contain the following:
+<ul>
+<li>A border defining the top-level entity.  Borders for each of the 
+	components instantiated within the top-level entity.
+<li>All components must be named in the upper left corner.
+<li>All signals entering and exiting components must have their 
+	port name defined just inside the border.
+<li>All signals outside the components must have their width defined (if more than one bit)
+	as well as be labeled with their names. The Q format should be specified on the BBBs where appropriate. 
+</ul>
+
+<h2>Milestone 2</h2>
+At the end of the second lab period, you should have a working testbench.
+When simulating your design, have the testbench supply a mock ready signal
+in place of the ready signal generated the Audio_Codec_Wrapper (when put in a testbench,
+the Audio_Codec_Wrapper is not able to generate a ready signal without a lot of 
+extra work).
+<br><br>
+
+When complete, I expect your timing diagram to look like the image below 
+and contain at least:
+<ul>	<li>clk
+	<li>reset
+	<li>ready (simulated using CSA statements in teshbench)
+	<li>FSM state
+	<li>BRAM address
+	<li>Phase increment
+	<li>BRAM data out
+	<li>Amplitude cofficient (if aiming for B or A functionality)
+	<li>Multiplied data out (if aiming for B or A functionality)
+	<li>Slide switches
+	<li>Button values
+</ul>
+
+Your simulation needs to simulate a button press (and release) to 
+change the phase increment. After that is done, you need to show that the BRAM
+address is being incremented by your new phase increment value.
+
+<br><img src="./lab4-1.gif"><br><br>
+
+<h2>README</h2>
+The README writeup should include:
+<ul>
+<li>Milestone 1 products (Design)
+<li>Milestone 2 simulation results
+<li>Proof (such as a youtube video) that you met Required, B, and A functionality (or statement you demonstrated to your instructor), with the date/time.
+This section should clearly state for each milestone/functionality the date/time it was achieved, level of achievement 
+(e.g, achieved, partially-achieved, not achieved), what was achieved, and how you proved it 
+(via demo or evidence like images/videos).  
+For example, you could have a table like this:
+
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th align="center">Milestone</th>
+<th align="center">Date/Time</th>
+<th align="center">What was achieved</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td align="center" colspan="1">Gate Check 1</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"></td>
+</tr>
+
+<tr>
+<td align="center" colspan="1">Gate Check 2</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"></td>
+</tr>
+
+<tr>
+<td align="center" colspan="1">Required Functionality</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"></td>
+</tr>
+
+<tr>
+<td align="center" colspan="1">A Functionality</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"></td>
+</tr>
+</tbody>
+</table>
+
+
+</li>
+</ul>
+
+<h2>Grading</h2>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th align="center">Item</th>
+<th align="center">Grade</th>
+<th align="center">Points</th>
+<th align="center">Out of</th>
+<th align="center">Date</th>
+<th>Due</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td align="center" colspan="1">Milestone #1</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">15</td>
+<td align="center" colspan="1"></td>
+<td>End of Lesson L27 </td>
+</tr>
+
+<td align="center" colspan="1">Milestone #2</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">15</td>
+<td align="center" colspan="1"></td>
+<td>End of Lesson L28 </td>
+</tr>
+
+<td align="center" colspan="1">Required Functionality</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">30</td>
+<td align="center" colspan="1"></td>
+<td>COB L29 </td>
+</tr>
+
+<tr>
+<td align="center" colspan="1">B Functionality</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">10</td>
+<td align="center" colspan="1"></td>
+<td>COB L29 </td>
+</tr>
+
+<tr>
+<td align="center" colspan="1">A Functionality</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">10</td>
+<td align="center" colspan="1"></td>
+<td>COB L29 </td>
+</tr>
+<tr>
+<td align="center" colspan="1">Bonus Functionality</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">10</td>
+<td align="center" colspan="1"></td>
+<td>COB L29 </td>
+</tr>
+<tr>
+<td align="center" colspan="1">Use of Git / Bitbucket</td>
+<td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">5</td>
+<td align="center" colspan="1"></td>
+<td>COB L30</td>
+</tr>
+<tr>
+<td align="center" colspan="1">Code Style</td>
+<td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">10</td>
+<td align="center" colspan="1"></td>
+<td>COB L30</td>
+</tr>
+<tr>
+<td align="center" colspan="1">README</td>
+<td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">5</td>
+<td align="center" colspan="1"></td>
+<td>COB L30</td>
+</tr>
+<tr>
+<td align="center" colspan="1"><strong>Total</strong></td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"><strong>110</strong></td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"></td>
+</tr>
+</tbody>
+</table>
+
+
+</body>
+</html>
+
