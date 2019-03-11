@@ -95,6 +95,11 @@ in <a href="../lab2/lab2.html">Lab 2</a>.
 </td></tr>
 </table>
 
+NEW FOR 2019: Instead of doing this ECO, you have the option of retaining your
+Lab2 buttons to control Trigger Volt and Trigger Time, but you must input these
+signals into Microblaze, and be able to display the values on the UART monitor
+
+<h2>Hardware Setup</h2>
 Your first step will be to create a component for your lab2 component in
 your Vivado repository.  This will require you to think about what signals
 are routed to the MicroBlaze and what signals are going outside the Artix 7 chip.
@@ -137,6 +142,8 @@ By the conclusion of lesson 22, you need to be able to send USART commands using
 to your FPGA to adjust the trigger on the screen. The trigger on the 
 screen should properly react to moving the trigger either up or down.
 
+Or, if you choose to not do the ECO and kept the lab 2 buttons and input Trigger Volt and Time
+into Microblaze, show on UART display you can read Trigger Volt and Trigger Time
 
 
 <h2>Required Functionality</h2>
@@ -153,7 +160,9 @@ the MicroBlaze will include:
 	<li>Move the appropriate buffer values into the display memory of
 	the oscilloscope (lab2) component.
 	<li>Provide a user menu (through the terminal) allowing the user
-	to adjust the trigger voltage and trigger time.
+	to adjust the trigger voltage and trigger time. (Or if you did not
+	implement the ECO, show your microblaze can read trigger volt and time
+	by displaying on the UART monitor)
 </ul>
 
 <h2><del>B-level Functionality</del></h2>
