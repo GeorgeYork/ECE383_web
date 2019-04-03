@@ -34,10 +34,11 @@ The goal of this lab is to generate an audio waveform with a high degree
 of accuracy in both its period and frequency.  
 
 <h2>Lab Overview</h2>
-You are to use Direct Digital Synthesis to reproduce your audio waveform.
+You are to use Direct Digital Synthesis to reproduce your audio waveform. For required functionality your system should create a sinusoid.
+For B-Level functionality, you must create a different waveform on the other channel.
 You may choose any waveform so long as its not
 <a href="http://en.wikipedia.org/wiki/Piecewise_linear_function">Piecewise Linear</a>.
-A few interesting examples would be sinusoids, the sinc function, exponentially damped
+A few interesting examples would be the sinc function, exponentially damped
 sinusoids, or a waveform from a musical instrument (guitar, piano, or clarinet).  It is  
 your responsibility to get the samples for this waveform.  I would suggest
 either deriving the waveform using a program like Python, using a spreadsheet, or
@@ -50,19 +51,21 @@ on how to accomplish this.
 While you have the flexibility to design the waveform generator as you see 
 fit, your system must meet the following requirements:
 <ol>	<li>Use an update rate of 48kHz
-	<li>At 440Hz, the LUT should be incremented by about 1 index.
-	<li>Be able to make between a 1Hz and 0.25Hz change in frequency.  
+	<li>Your function generator should be able to create a maximum frequency of 12000 Hz without aliasing.
+	<li>Be able to make between a 0.5 Hz and 1.0 Hz change in frequency.  
 	<li>Be able to generate a full amplitude waveform.
+	<li>Only one BRAM may be used for each channel.
+	<li>A FSM must be used to control the datapath. 
+	<li>Microblaze is not required, but may be used if desired.
 </ol>
 
 
 <h2>Hardware</h2>
 You will have to generate the block diagram for this assignment and 
-present it at the beginning of the second lab session for review by 
-your professor.  Your design must be segregated into a datapath and 
+upload it to bitbucket for milestone 1.  Your design must be segregated into a datapath and 
 control unit. Your design must show the blocks in the datapath,
 the states in the FSM, the control word, and the status word joining 
-the datapath and control unit.
+the datapath and control unit. All bus widths and Q formats for registers must be shown. This diagram must be neat and readable.
 
 <h2>Required Functionality</h2>
 Use the slide switches and push buttons to manipulate the phase angle and the 
@@ -93,21 +96,17 @@ Interpolation between the output samples is not required.
 <del>Use the microBlaze to capture a keyboard input to manipulate the amplitude and frequency.  The user
 will enter in an integer frequency and you are to produce a waveform 
 with that frequency. </del>
-Modify the hardware for the right channel to interpolate between samples using (base + next-base)*offset) method
-
-<h2>Bonus Functionality</h2>
-Connect your A-level Function Generator hardware to either your Lab2 or Lab 3 functionality 
-to enable the display of your generated signals on your O'scope display. 
+Modify the hardware for the right channel to interpolate between samples using (base + next-base)*offset) method. You may swap A and B functionality if desired.
+ 
 
 <h2>Milestone 1</h2>
-At the end of the first lab session, you should have completed your design and uploaded it to bitbucket.
-This should include the mathematical analysis you did to meet the requirements in the "Requirements" section above, concluding with the Q format required for your phase increment (like Q10.6).
-Given your Q format, show calculations for (1) the minimum frequency produced (2) the frequency produced when your phase increment is 1.0, and (3) your maximum frequency before aliasing occurs.
-It should also include the design for the items listed in the "Hardware" section above.
-The hardware diagram using BBB (Basic Building Blocks) should be drawn in paint or another image editing software 
-that is readable and can be printed onto an 8.5x11 sheet of
-paper.  Provide me with a hardcopy of your schematic at the end of
-class and upload to bitbucket.  This diagram must contain the following:
+At the COB of the day of the first lab session, you should have completed your design and uploaded it to bitbucket.
+This should include the mathematical analysis you did to meet the requirements in the "Requirements" section above, concluding with the Q format required for your phase increment (like Qxx.xx).
+Given your Q format, show calculations for (1) phase increment needed for the maximum frequency without aliasing (2) the size of the BRAM buffer needed, assuming it contains one cycle of a sinusoid 
+(3) the minimum frequency produced (4) the frequency produced when your phase increment is 1.0, (5) the phase increment value that gets you closest to 440Hz, and (6) what that closest frequency to
+440 Hz is that you can create.
+It should also include the hardware block diagram design for the items listed in the "Hardware" section above.
+ This diagram must contain the following:
 <ul>
 <li>A border defining the top-level entity.  Borders for each of the 
 	components instantiated within the top-level entity.
@@ -119,7 +118,7 @@ class and upload to bitbucket.  This diagram must contain the following:
 </ul>
 
 <h2>Milestone 2</h2>
-At the end of the second lab period, you should have a working testbench.
+At the COB of the day of the second lab period, you should have a working testbench.
 When simulating your design, have the testbench supply a mock ready signal
 in place of the ready signal generated the Audio_Codec_Wrapper (when put in a testbench,
 the Audio_Codec_Wrapper is not able to generate a ready signal without a lot of 
@@ -135,7 +134,7 @@ and contain at least:
 	<li>BRAM address
 	<li>Phase increment
 	<li>BRAM data out
-	<li>Amplitude cofficient (if aiming for B or A functionality)
+	<li>Amplitude coefficient (if aiming for B or A functionality)
 	<li>Multiplied data out (if aiming for B or A functionality)
 	<li>Slide switches
 	<li>Button values
@@ -147,12 +146,15 @@ address is being incremented by your new phase increment value.
 
 <br><img src="./lab4-1.gif"><br><br>
 
+For Milestone 2, also describe your method for creating your BRAM look-up tables for your waveforms in your README, and upload any code (like spreadsheets) used.
+
 <h2>README</h2>
 The README writeup should include:
 <ul>
-<li>Milestone 1 products (Design)
-<li>Milestone 2 simulation results
+<li>Milestone 1 products (Design and solutions to design questions)
+<li>Milestone 2 simulation results and description of your method for creating your BRAM look-up tables for your waveforms (also upload any code like spreadsheets used.)
 <li>Proof (such as a youtube video) that you met Required, B, and A functionality (or statement you demonstrated to Dr York), with the date/time.
+<li>Remember to upload your code with proper headers and comments
 </ul>
 
 <h2>Grading</h2>
@@ -175,7 +177,7 @@ The README writeup should include:
 <td align="center" colspan="1"></td>
 <td align="center" colspan="1">15</td>
 <td align="center" colspan="1"></td>
-<td>End of Lesson L27 </td>
+<td>COB L27 </td>
 </tr>
 
 <td align="center" colspan="1">Milestone #2</td>
@@ -183,7 +185,7 @@ The README writeup should include:
 <td align="center" colspan="1"></td>
 <td align="center" colspan="1">15</td>
 <td align="center" colspan="1"></td>
-<td>End of Lesson L28 </td>
+<td>COB L28 </td>
 </tr>
 
 <td align="center" colspan="1">Required Functionality</td>
@@ -205,14 +207,6 @@ The README writeup should include:
 
 <tr>
 <td align="center" colspan="1">A Functionality</td>
-<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
-<td align="center" colspan="1">10</td>
-<td align="center" colspan="1"></td>
-<td>COB L29 </td>
-</tr>
-<tr>
-<td align="center" colspan="1">Bonus Functionality</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
 <td align="center" colspan="1">10</td>
