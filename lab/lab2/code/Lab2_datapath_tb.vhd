@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Name:	Maj Jeff Falkinburg
+-- Name:	Maj Jeff Falkinburg [Modified by George York]
 -- Date:	Spring 2017
 -- Course:	ECE 383
 -- File: lab2_datapath_tb.vhd
@@ -159,11 +159,19 @@ BEGIN
    -- Stimulus process
    stim_proc: process 
    begin		
-      -- hold reset state for 100 ns.
-		reset_n <= '0', '1' after 10 ns;
-		cw <= "111", "101" after 30 ns;
-			-- insert stimulus here 
+     -- hold reset state for 100 ns.
+	 reset_n <= '0', '1' after 10 ns;
+     cw <= "111", "101" after 30 ns;   -- start the counter counting continuously
+     -- insert stimulus here;  (bypass the counter)
+     exSEL <= '1';
+     exWrAddr <= "0000000110" after 100 ns;  -- BRAM address "6"
+     exLbus <= "0000000000001000" after 100 ns; -- Data value written is "8"
+     exWen <= '1' after 200 ns;
 
+	 --The simulation plot you turn in should show you system can write the value “6” to address “8” 
+	 --and then it reads a value “8” when reading location “6”.  
+	 --You may need a second simulation plot to show the counting is counting.
+	 --You will need to “Add to Wave Window” the signals “column", “ReadL”, and “write_cntr”
 		
 		wait;
    end process;
