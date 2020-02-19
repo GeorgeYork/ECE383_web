@@ -254,16 +254,14 @@ oscilloscope. Additionally your Scopeface and Button inputs from Lab 1 should be
 
 <h3>Gate Check 2</h3>
 NOTE: THIS IS THE HARDEST PART! By BOC Lesson 15, you must have implemented and connected the left channel BRAM and BRAM 
-Address Counter to write Audio Codec data to BRAM.  Once implemented, you can verify your BRAM works 
-by using the given datapath testbench and watching the BRAM write address 
-increment and data be written/read from the BRAM.<br>
+Address Counter to write Audio Codec data to BRAM.  Once implemented, you can verify your BRAM and counter works 
+by using the given datapath testbench and watching it write a data value to a given BRAM address 
+and then reading back the same data value at the same BRAM address when video requests the value at that column.<br>
 Once this is working, you must implement Video entity (from Lab 1) to take the left channel output from BRAM and send it to the Channel 1 
-waveform to be displayed when the readL value equals the row value.  Once implemented, this functionality
-can be verified first with the given datapath testbench to verify the channel 1 values are 
-being updated properly when readL equals the row value. Additionally, you may try to implement 
+waveform to be displayed when the readL value equals the row value.  Implement 
 this on the hardware and verify that your scopeface is still present and some values are being 
-displayed for Channel 1 (at this point the waveform will be scrolling across the display or 
-may be scaled wrong).
+displayed for Channel 1 (at this point, since there is no trigger, the waveform will be scrolling across the display and the scaling 
+may be wrong).
 
 <h2>Required Functionality</h2>
 Get a single channel of the oscilloscope to display with
