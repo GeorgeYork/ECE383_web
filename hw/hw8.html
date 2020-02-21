@@ -47,7 +47,12 @@ second page of this document would be labeled 2/4 and so on.
 Design the control unit for the keyboard scancode converter started in
 lecture 11.  Integrate it into the code and run a testbench showing
 two buttons pressed - not the same ones that the existing testbench
-presses.
+presses. 
+
+Note: Line 10 of the mini-C "scan = shift[9-2]" implies the variable "scan" should be a register.
+Make the 8-bit output scan code be the output of an 8-bit register in 
+your datapath, such that on system reset its value is 0x00 and it does not change
+until the final 8-bit scan code is known (when busy goes low).
 
 Turn in:
 <ul>	<li>Hand-drawn datapath
