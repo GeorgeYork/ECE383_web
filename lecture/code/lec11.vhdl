@@ -1,5 +1,5 @@
 --------------------------------------------------------------------
--- Name:	Chris Coulston
+-- Name:	Chris Coulston, modified by George York
 -- Date:	Feb 3, 2015
 -- File:	lec11.vhdl
 -- HW:	Lecture 11
@@ -37,7 +37,7 @@ architecture behavior of lec11 is
 component lec11_dp is
 	Port(	clk: in  STD_LOGIC;
 			reset : in  STD_LOGIC;
-			cw: in std_logic_vector(2 downto 0);
+			cw: in std_logic_vector(3 downto 0);
 			sw: out std_logic;
 			kbData : in std_logic;
 			scan: out std_logic_vector (7 downto 0));
@@ -47,14 +47,14 @@ component lec11_cu is
 	Port(	clk: in  STD_LOGIC;
 			reset : in  STD_LOGIC;
 			kbClk: in std_logic;
-			cw: out STD_LOGIC_VECTOR(2 downto 0);
+			cw: out STD_LOGIC_VECTOR(3 downto 0);
 			sw: in STD_LOGIC;
 			busy: out std_logic);
 end component;
 
 
 	signal sw: std_logic;
-	signal cw: std_logic_vector(2 downto 0);
+	signal cw: std_logic_vector(3 downto 0);
 	
 begin
 

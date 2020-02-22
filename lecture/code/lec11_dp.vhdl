@@ -1,5 +1,5 @@
 --------------------------------------------------------------------
--- Name:	Chris Coulston
+-- Name:	Chris Coulston, modified by George York
 -- Date:	Feb 3, 2015
 -- File:	lec11_dp.vhdl
 -- HW:	Lecture 11
@@ -24,7 +24,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity lec11_dp is
 	Port(	clk: in  STD_LOGIC;
 			reset : in  STD_LOGIC;
-			cw: in std_logic_vector(2 downto 0);
+			cw: in std_logic_vector(3 downto 0);
 			sw: out std_logic;
 			kbData : in std_logic;
 			scan: out std_logic_vector (7 downto 0));
@@ -34,12 +34,14 @@ architecture behavior of lec11_dp is
 
 	signal shiftReg : std_logic_vector(10 downto 0);
 	signal keyCntr: unsigned (5 downto 0);
+	signal scanReg: std_logic_vector (7 downto 0);
 	
 begin
 	
 	
 	-----------------------------------------------------------------------------
 	--		The counter tells us which bit we are processing
+	--  cw(1), cw(0)
 	--		00			hold
 	--		01			count up
 	--		10			unused
@@ -67,6 +69,7 @@ begin
 	
  	-----------------------------------------------------------------------------
 	--		The shift register keeps only 11-bits 
+	--    cw(2)
 	--		0			hold
 	--		1			shift right (data comes in at the MSB)
 	-----------------------------------------------------------------------------
@@ -81,6 +84,23 @@ begin
 		end if;
 	end process;
 	
-	scan <= shiftReg(8 downto 1);
+    -----------------------------------------------------------------------------
+	--		The scan register is loaded with the 8 scan bits for output 
+	--    cw(3)
+	--		0			hold
+	--		1			load
+	-----------------------------------------------------------------------------
+	process(clk)
+	begin
+		if (rising_edge(clk)) then
+			if (reset = '0') then
+				scanReg <= (others => '0');
+			elsif (cw(3) = '1') then
+				scanReg <= shiftReg(8 downto 1);
+			end if;
+		end if;
+	end process;
+	
+	scan <= scanReg;
 	
 end behavior;
