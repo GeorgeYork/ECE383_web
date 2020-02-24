@@ -26,6 +26,7 @@
 <table class="table table-striped table-bordered table-condensed">
 <tr><td>Date:</td>	<td>February 4/6</td></tr>
 <tr><td>Lecture:</td>	<td>12</td></tr>
+<tr><td>Homework		<td><a href="./hw/HW8b_assignment.pdf">HW #8b</a></td></tr>
 <tr><td>Handout		<td><a href="../hand/hand12.docx">hand12.docx</a></td></tr>
 <tr><td>Status		<td bgcolor = #D0FFD0>Complete <!--<td bgcolor = #FFFFF0>Not Started<td bgcolor = #FFD0D0>In Progress --> <!--<td bgcolor = #FFD0D0>In Progress -->
 <tr><td>Code 		<td>	<a href="./code/lec12_dp.vhdl">lec12_dp.vhdl<br>
@@ -278,9 +279,9 @@ is slower, it will work as fast as possible to latch the data.
 
 
 <dir>
-Build a circuit to read in an 8-bit KEY using a two-line handshake; 
+Build a circuit to read in an 16-bit KEY using a two-line handshake; 
 the circuit is a passive consumer. The circuit should
-search an 18kx18 RAM, counting the number of words that match
+search an 16kx16 RAM, counting the number of words that match
 KEY. Assume the RAM is preloaded with data and it can respond to a 
 read request with valid data within one clock
 </dir>
@@ -293,7 +294,7 @@ read request with valid data within one clock
 5.     while(REQ == 1);
 6.     ACK = 0;
 7.     match = 0;
-8.     for(i=0; i<8191; i++) {
+8.     for(i=0; i<1024; i++) {
 9.         MBR = RAM[i];
 10.        if (MBR == KEY) {
 11.            match=match+1;
