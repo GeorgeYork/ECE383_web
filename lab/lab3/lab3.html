@@ -35,6 +35,11 @@
 <h2>First Step of Lab</h2>
 The first thing to do is create a Bitbucket repo for this lab with a README file (can be in markdown, word, pdf, etc) which includes the Milestone Table shown in the README section below. You should update this as you achieve each milestone. Your instructor will go to this table first when grading each of your milestones, looking for evidence that the milestone was achieved.
 
+<h2>Pre-initialize BRAM with a Signal</h2>
+See this example BRAM initialization code: <a href="BRAM_example_init.vhd">BRAM_example_init.vhd</a>.
+This initializes your left BRAM to have a sine wave and your right BRAM to have a different wave.
+This can be used for an initial test (without audio working) to see if the data in the BRAM is displayed on the Monitor.
+
 <h2>Lab Overview</h2>
 In this lab, we will integrate the video display controller developed
 in Lab 2 with the MicroBlaze processor built using the fabric of the Artix-7 FPGA.
@@ -136,17 +141,17 @@ as #define's with a name ending in "Reg".
 
 
 <h2>Gate Check 1</h2>
-By the conclusion of lesson 21, you need to have all of your Lab 2 functionality implemented with the Microblaze.
-That is, you need to export your Lab 2 design into the SDK and be able to achieve the same functionality as you did in Lab 2.
+You need to have all of your Lab 2 functionality implemented with the Microblaze.
+That is, you need to be able to set ExSel to '0' from your microblaze C program and be able to achieve the same functionality as you did in Lab 2.
 
 
 <h2>Gate Check 2</h2>
-By the conclusion of lesson 22, you need to be able to send UART commands using Tera Term (or another terminal emulator)
+You need to be able to send UART commands using Tera Term (or another terminal emulator)
 to your FPGA to adjust the trigger on the screen. The trigger on the 
 screen should properly react to moving the trigger either up or down.
 
-Or, if you choose to not do the ECO and kept the lab 2 buttons and input Trigger Volt and Time
-into Microblaze, show on UART display you can read Trigger Volt and Trigger Time
+Or, if you choose to not to control the trigger from the terminal and kept the lab 2 Trigger Volt and Time buttons,
+then show on your UART display that your C program can read the Trigger Volt and Trigger Time from the hardware buttons.
 
 
 <h2>Required Functionality</h2>
@@ -157,7 +162,7 @@ the MicroBlaze will include:
 <ul>	<li>Move audio samples into a pair of circular buffers.  These circular
 	buffers will be maintained in the address space of the MicroBlaze. That
 	is, you should have two big arrays defined in your program.
-	Use polling of the ready bit of the flag register.
+	Use polling of the ready bit of the flag register. [2019 change: you have the option of using a circular or linear buffer]
 	<li>Examine the samples, looking for a trigger event.
 	<li>Fill the remaining sample slots in memory.
 	<li>Move the appropriate buffer values into the display memory of
