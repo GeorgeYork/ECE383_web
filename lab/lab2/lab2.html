@@ -210,7 +210,7 @@ The files below will give you a start on Lab 2.
 	<li>A package file. Once you insert it in your project, in the source window, click the 'libraries' tab to view it: <a href="./code/lab2_pack.vhdl">lab2_pack.vhdl</a>. I would highly suggest putting all your component declarations here.
 	<li>Overall Lab 2 File: <a href="./code/lab2.vhd">lab2.vhd</a>
 		<ul>
-		<li>Lab 2 Datapath: <a href="./code/Lab2_datapath_tb.vhd">Lab2_datapath_tb.vhd</a>
+		<li>Lab 2 Datapath: (you need to create this). This file has BRAM initialization with a dummy signal for the left and right BRAM <a href="./code/BRAM_example_init.vhd">BRAM_example_init.vhd</a>
 			<li>Audio Codec Wrapper: <a href="./code/Audio_Codec_Wrapper.vhd">Audio_Codec_Wrapper.vhd (Audio Codec Wraper for Xilinx Vivado)</a>
 				<ul>
 				<li><a href="./code/i2s_ctl.vhd">i2s_ctl.vhd (I2S Transmitter portion of Audio Codec Wraper for Xilinx Vivado)</a>
@@ -235,36 +235,55 @@ The <a href="http://keuwl.com/FunctionGenerator">Keuwl Dual Channel
 Function Generator</a> (available on Google Play) works well for Android Phones, and is easy to use once you get the hang of it.
 
 <h2>Gate Checks for Required Functionality</h2>
-There are 2 gate checks associated with this lab, each worth 5 points - see the rubric below.
+There are 3 gate checks associated with this lab, each worth 5 points - see the rubric below.
 
 <h3>Gate Check 1</h3>
 By COB Lesson 13, you must have started a Lab 2 Vivado project and downloaded the template files 
 and drop in your Video, VGA, Scopeface, dvid, and tdms files from Lab 1 into your Lab 2 project 
-in order to test your Lab 1 Scopeface works when you implement you Audio Code Wrapper.  Notice 
-from the block diagram…you will copy your Video instantiation and button processes from Lab 1 
-into your Lab 2 Datapath.  You will also have to re-implement the Lab 1 Clocking Wizard in you 
-Lab 2 project.  Doing this will eliminate a lot of errors from un-driven output signals on lab 2 top. <br>
-
-Next, you will need to have implement another Clocking Wizard and the Audio Codec Wrapper inside 
-the Datapath entity to get your Audio Codec to begin functioning. Once you fully implement the 
-Audio Codec Wrapper, you will drop in the Loopback process and make connections to loopback the 
-serial ADC input back out to the DAC output (i.e. send the signal back into the Codec). Once you 
-implement the design on the board, you can verify functionality by applying an audio signal to the 
-audio line in jack (blue) and listening to it on the audio line out jack (Green) using a standard 
-oscilloscope. Additionally your Scopeface and Button inputs from Lab 1 should be functional as well.
-
-
-
-<h3>Gate Check 2</h3>
-NOTE: THIS IS THE HARDEST PART! By BOC Lesson 15, you must have implemented and connected the left channel BRAM and BRAM 
-Address Counter to write Audio Codec data to BRAM.  Once implemented, you can verify your BRAM and counter works 
-by using the given datapath testbench and watching it write a data value to a given BRAM address 
-and then reading back the same data value at the same BRAM address when video requests the value at that column.<br>
-Once this is working, you must implement Video entity (from Lab 1) to take the left channel output from BRAM and send it to the Channel 1 
-waveform to be displayed when the readL value equals the row value.  Implement 
+in order to test your Lab 1 Scopeface works when you implement your BRAM using the two initialized
+signal examples in BRAM_example_init.vhd. This does not require the audio or your control unit is working yet.
+Your Scopeface/Video should continuously be reading the left and right BRAM signals displaying them on the monitor.
+You must implement Video entity (from Lab 1) to take the channel output from the left and right BRAMs and send it to the Channel 1 and 2
+inputs to be displayed when the readL and readR values equal the row value.  Implement 
 this on the hardware and verify that your scopeface is still present and some values are being 
 displayed for Channel 1 (at this point, since there is no trigger, the waveform will be scrolling across the display and the scaling 
-may be wrong).
+may be wrong). After you demo this, this is a good opportunity to work on scaling the signals 
+so their DC value is centered on your grids y-axis.
+
+Notice from the block diagram you will copy your Video instantiation and button processes from Lab 1 
+into your Lab 2 Datapath.  You will also have to re-implement the Lab 1 Clocking Wizard in you 
+Lab 2 project.  Doing this will eliminate a lot of errors from un-driven output signals on lab 2 top.
+
+Additionally your Scopeface and Button inputs from Lab 1 should be functional as well.
+
+Also, you may need to have implement another Clocking Wizard for the Audio Codec Wrapper inside 
+the Datapath entity to get the bit stream to generate. 
+
+<h3>Gate Check 2</h3>
+NOTE: THIS IS THE HARDEST PART! By COB Lesson 15, you must have implemented and connected the BRAM 
+Address Counter to left and right BRAMs, instantiated the Audio Codec Wrapper in Simulation mode (sim_live = '0'),
+and your control unit, such that your control unit writes the simulated audio data to the left and right BRAM and
+you can see the waveforms plotted on the monitor. (at this point, since there is no trigger, the waveform will be scrolling across the display and the scaling 
+may be wrong).  Remember you must successfully convert the signed audio data 
+from the Audio_Codec_Wrapper into unsigned data needed for the monitor. After you demo this, this is a good opportunity to work on scaling the signals 
+so their DC value is centered on your grids y-axis.
+
+If this does not work, you must create a Testbench to help debug why it is not working.
+
+Reminder: implement another Clocking Wizard and the Audio Codec Wrapper inside 
+the Datapath entity to get your Audio Codec to begin functioning (if not done in gate check 1). 
+
+ <h3>Gate Check 3</h3>
+By COB Lesson 16, redo Gate Check 2, except with the Audio Codec Wrapper in Live mode (sim_live = '1'). (at this point, since there is no trigger, the waveform will be scrolling across the display). 
+Also make connections to loopback the 
+serial ADC input back out to the DAC output (i.e. send the signal back into the Codec). Once you 
+implement the design on the board, you can verify functionality by applying an audio signal to the 
+audio line in jack (blue) and listening to it on the audio line out jack (Green), and seeing the output on the monitor.
+
+After you finish Gate Check 3, this is a good time to implement proper triggering on the trig_volt value.
+
+If this does not work, you must create a Testbench to help debug why it is not working.
+
 
 <h2>Required Functionality</h2>
 Get a single channel of the oscilloscope to display with
@@ -378,13 +397,19 @@ For example, you could have a table like this:
 <tr>
 <td align="center" colspan="1">Gate Check 1</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">Achieved: demo'd to instructor audio loopback test and demonstrated lab#1 worked with audio wave displayed on scopeface monitor and buttons working</td>
+<td align="center" colspan="1">Achieved: demonstrated lab#1 worked with the two test signals in the BRAM displayed on scopeface monitor and buttons working</td>
 </tr>
 
 <tr>
 <td align="center" colspan="1">Gate Check 2</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">Achieved: Not demo'd to instructor. See in test/debug section GC2.jpg for display of audio wave scrolling on monitor and Sim_plot.jpg of the successful simulation of writing 0x55 to BRAM location 0x40, then reading back 0x55 from BRAM location 0x40 </td>
+<td align="center" colspan="1">Achieved: Not demo'd to instructor. See video show the two simulated audio signals oscrolling on monitor (not triggered)</td>
+</tr>
+
+<tr>
+<td align="center" colspan="1">Gate Check 3</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">Achieved: demo'd to instructor audio loopback test and the live audio waves scrolling on monitor </td>
 </tr>
 
 <tr>
@@ -446,6 +471,15 @@ or the lectures leading up to this lab.</li>
 </tr>
 
 <tr>
+<td align="center" colspan="1">Gate Check 3</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">5</td>
+<td align="center" colspan="1"></td>
+<td>COB L16 </td>
+</tr>
+
+<tr>
 <td align="center" colspan="1">Required Functionality</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
@@ -491,7 +525,7 @@ or the lectures leading up to this lab.</li>
 <td align="center" colspan="1">README</td>
 <td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">25</td>
+<td align="center" colspan="1">20</td>
 <td align="center" colspan="1"></td>
 <td>COB L18</td>
 </tr>
