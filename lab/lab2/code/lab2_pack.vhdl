@@ -53,7 +53,8 @@ component Audio_Codec_Wrapper
         L_bus_out : out  std_logic_vector(17 downto 0); -- left channel output from ADC
         R_bus_out : out  std_logic_vector(17 downto 0); -- right channel output from ADC
         scl : inout STD_LOGIC;
-        sda : inout STD_LOGIC);
+        sda : inout STD_LOGIC;
+        sim_live : in STD_LOGIC);   --  '0' simulate audio; '1' live audio
 end component;
 
 
