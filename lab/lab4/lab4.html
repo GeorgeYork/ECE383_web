@@ -55,7 +55,8 @@ While you have the flexibility to design the waveform generator as you see
 fit, your system must meet the following requirements:
 <ol>	<li>Use an update rate of 48kHz
 	<li>Your function generator should be able to create a maximum frequency of 12000 Hz without aliasing.
-	<li>Create a minimum frequency between a 0.5 Hz and 1.0 Hz (this is also the minimum change in frequency).  
+	<li>Your function generator should be able to create a minimum frequency between a 0.5 Hz and 1.0 Hz (this is also the minimum change in frequency).  
+	<li>When your phase increment X = 1.0, the output frequency should be 200 Hz +/- 20 Hz.
 	<li>Be able to generate a full amplitude waveform.
 	<li>Only one BRAM may be used for each channel.
 	<li>A FSM must be used to control the datapath. 
@@ -71,7 +72,7 @@ the states in the FSM, the control word, and the status word joining
 the datapath and control unit. All bus widths and Q formats for registers must be shown. This diagram must be neat and readable.
 
 <h2>Required Functionality</h2>
-Use the slide switches and push buttons to manipulate the phase angle and the 
+Use the slide switches and push buttons to manipulate the phase increment and the 
 amplitude of the waveform as follows:
 <ul>
 <li>Pressing the left button should decrease the frequency of the waveform
@@ -157,7 +158,7 @@ The README writeup should include:
 <ul>
 <li>Milestone 1 products (Design and solutions to design questions)
 <li>Milestone 2 simulation results and description of your method for creating your BRAM look-up tables for your waveforms (also upload any code like spreadsheets used.)
-<li>Proof (such as a youtube video) that you met Required, B, and A functionality (or statement you demonstrated to Dr York), with the date/time.
+<li>Proof (such as a stream or youtube video) that you met Required, B, and A functionality (or statement you demonstrated to Dr York), with the date/time.
 For Required functionality, include images of logic analyzer plots showing (1) the output waveform when x = 1.0 [does this match your calculated frequency?], and (2) the output waveform with x set to create ~440Hz [does this match your calculated frequency?]
 For B-level functionality, include images of logic analyzer plots showing (1) the output waveform with your default amplitude, and (2) the output waveform after you increase (or decrease) the amplitude of your signal [does this match your calculations based on the switch settings?]
 For A-level functionality, include an image of the logic analyzer plot showing channel-1 (not interpolated) and channel-2 (interpolated).  Try to pick a frequency such that interpolated looks better than non-interpolated.
