@@ -47,7 +47,7 @@ your responsibility to get the samples for this waveform.  I would suggest
 either deriving the waveform using a program like Python, using a spreadsheet, or
 digitizing the samples using Lab 3.  Once you have your data, hardwired it 
 into BRAM using "init" statements.  Consult the handout associated with 
-<a href="../../lecture/lecture24.html">lesson 24</a> for more details 
+<a href="../../lecture/lecture24.html">lesson 27</a> for more details 
 on how to accomplish this.
 
 <h2>Requirements</h2>
@@ -65,11 +65,20 @@ fit, your system must meet the following requirements:
 
 
 <h2>Hardware</h2>
-You will have to generate the block diagram for this assignment and 
+You will have to generate the block diagram for your lab4 function generator and 
 upload it to bitbucket for milestone 1.  Your design must be segregated into a datapath and 
 control unit. Your design must show the blocks in the datapath,
 the states in the FSM, the control word, and the status word joining 
 the datapath and control unit. All bus widths and Q formats for registers must be shown. This diagram must be neat and readable.
+Your lab4 block diagram will need to borrow the Audio_Codec_Wrapper (with Clock_Wiz_1) from the Lab#2 block diagram.  
+The Codec will produce the "Ready" signal you will feed as a input signal into your FSM. The final value for your left and right
+signal you generate will be connected to the Codec's L_Bus_in and R_Bus_in so you can listen to the output tones using ear-buds or a speaker.
+
+Since you most likely do not have an oscilloscope at home to see your output signal, you will use your Lab#2 o'scope, which will need to be modified. 
+You will also turn in a modified Lab2 block diagram for milestone 1.  The modified Lab2 block diagram no longer needs the Audio_Codec_Wrapper 
+(which is now inside the block diagram for Lab4).  Instead Lab2 will receive L_bus_out, R_bus_out, and Ready from Lab4 block diagram. 
+Since the lab4 hardware will be using all the buttons and switches, you need to delete the buttons in the Lab2 block diagram for tr_volt and tr_time.
+For these two values, just hard-code them as a constant.
 
 <h2>Required Functionality</h2>
 Use the slide switches and push buttons to manipulate the phase increment and the 
@@ -80,7 +89,7 @@ amplitude of the waveform as follows:
 <li>Pressing the right button should increase the frequency of the waveform 
 	by the amount set on the slide switches.
 </ul>
-Interpolation between the output samples is not required.
+For required functionality, Interpolation between the output samples is not required.
 
 The waveform should be played back through the Audio Codec interface on the left channel. Remember to
 wait for the ready signal.
@@ -93,8 +102,15 @@ wait for the ready signal.
 	by the amount set on the slide switches.
 <li><del>Duplicate your hardware to produce a different waveform on the right channel. The left and right channels will share the same frequency and amplitude settings.</del>
 </ul>
-Interpolation between the output samples is not required.
-
+For B-level Interpolation between the output samples is not required.
+<br><br>
+Hints for the amplification: Amplitude multiplication must be done on signed values, so either
+<ul> 
+<li> Make your sine wave BRAM LUT values signed, or
+<li> As you read these BRAM LUT values out, convert them from unsigned to signed (i.e., subtract 0x8000), or
+<li> Before multiplication, convert from unsigned to signed (i.e., subtract 0x8000)
+<li> [Another Note: it appears the multiplication of two signed numbers (where one is really unsigned) still works (i.e., it doesn't sign extend...)]
+</ul>
 
 <h2>A-level Functionality</h2>
 <del>Use the microBlaze to capture a keyboard input to manipulate the amplitude and frequency.  The user
@@ -108,9 +124,9 @@ At the COB of the day of the first lab session, you should have completed your d
 This should include the mathematical analysis you did to meet the requirements in the "Requirements" section above, concluding with the Q format required for your phase increment (like Qxx.xx).
 Given your Q format, show calculations for (1) phase increment needed for the maximum frequency without aliasing (2) the size of the BRAM buffer needed, assuming it contains one cycle of a sinusoid 
 (3) the minimum frequency produced (4) the frequency produced when your phase increment is 1.0, (5) the phase increment value that gets you closest to 440Hz, and (6) what that closest frequency to
-440 Hz is that you can create.
-It should also include the hardware block diagram design for the items listed in the "Hardware" section above.
- This diagram must contain the following:
+440 Hz is that you can create.  [Hint: we did these calculations in the last slides for Lesson 26]
+You should also include the hardware block diagram design for the items listed in the "Hardware" section above [the lab4 and modified lab3 block diagrams]. The block diagrams must look professional and not sloppy.
+ These diagrams must contain the following:
 <ul>
 <li>A border defining the top-level entity.  Borders for each of the 
 	components instantiated within the top-level entity.
@@ -120,16 +136,22 @@ It should also include the hardware block diagram design for the items listed in
 <li>All signals outside the components must have their width defined (if more than one bit)
 	as well as be labeled with their names. The Q format should be specified on the BBBs where appropriate. 
 </ul>
+To determine the frequency of your signals, we need to know what the time axis is for the lab2 O'scope you created. [Remember: frequency = 1/(period of one cycle)]
+You are filling your lab2 BRAM at a rate of 48KHz, so each scopeface pixel (or column count) corresponds in time to 1/(48 kHz) = 20.8333333 micro-seconds.
+You are drawing the wave from column 20 to 620, or 600 pixels. (7) how long in time do these 600 pixels represent?
+Your scopeface grid should have 10 major grid blocks, each with a width of 60 pixels. (8) how long in time to these grid blocks represent?
+(9) If your function generate creates a sine wave such that exactly two cycles of the sinewave fit on your scopeface (ie., across 600 pixels), what is the frequency of this sine wave?
+(10) What must your phase increment be to generate this sine wave?
 
 <h2>Milestone 2</h2>
-At the COB of the day of the second lab period, you should have a working testbench.
-When simulating your design, have the testbench supply a mock ready signal
+At the COB of the day of the second lab period, you should have a working testbench testing your lab4 hardware block diagram.
+When simulating your design, have the testbench supply a mock ready signal (clock at 48 kHz)
 in place of the ready signal generated the Audio_Codec_Wrapper (when put in a testbench,
 the Audio_Codec_Wrapper is not able to generate a ready signal without a lot of 
 extra work).
 <br><br>
 
-When complete, I expect your timing diagram to look like the image below 
+When complete, I expect your timing diagram to look similar to the image below 
 and contain at least:
 <ul>	<li>clk
 	<li>reset
@@ -151,16 +173,18 @@ what we are seeing in your simulation plot, to justify that your VHDL code is wo
 
 <br><img src="./lab4-1.gif"><br><br>
 
-For Milestone 2, also describe your method for creating your BRAM look-up tables for your waveforms in your README, and upload any code (like spreadsheets) used.
+For Milestone 2, also describe your method for creating your BRAM look-up tables for your waveforms in your README, and upload any code (like spreadsheets or python code) used.
 
 <h2>README</h2>
 The README writeup should include:
 <ul>
-<li>Milestone 1 products (Design and solutions to design questions)
+<li>Milestone 1 products (Design and solutions to the 10 design questions)
 <li>Milestone 2 simulation results and description of your method for creating your BRAM look-up tables for your waveforms (also upload any code like spreadsheets used.)
 <li>Proof (such as a stream or youtube video) that you met Required, B, and A functionality (or statement you demonstrated to Dr York), with the date/time.
-For Required functionality, include images of logic analyzer plots showing (1) the output waveform when x = 1.0 [does this match your calculated frequency?], and (2) the output waveform with x set to create ~440Hz [does this match your calculated frequency?]
-For B-level functionality, include images of logic analyzer plots showing (1) the output waveform with your default amplitude, and (2) the output waveform after you increase (or decrease) the amplitude of your signal [does this match your calculations based on the switch settings?]
+For Required functionality, include images of your scopeface plots showing (1) the output waveform when x is set to produce exactly 2 cycles of a sine wave across the 600 pixels on your scopeface display  
+ (2) the output waveform when x = 1.0 [does this match your calculated frequency, based on your scopeface grid timing calculations?], and 
+ (3) the output waveform with x set to create ~440Hz [does this match your calculated frequency, based on your scopeface grid timing calculations?]
+For B-level functionality, include images of scopeface plots showing (1) the output waveform with your default amplitude, and (2) the output waveform after you increase (or decrease) the amplitude of your signal [does this match your calculations based on the switch settings?]
 For A-level functionality, include an image of the logic analyzer plot showing channel-1 (not interpolated) and channel-2 (interpolated).  Try to pick a frequency such that interpolated looks better than non-interpolated.
 <li>Remember to upload your code with proper headers and comments
 
