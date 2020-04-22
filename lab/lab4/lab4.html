@@ -168,9 +168,12 @@ and contain at least:
 	<li>reset
 	<li>ready (simulated using CSA statements in teshbench)
 	<li>FSM state
+	<li>Phase increment 
+	<li>Index.Offset register
 	<li>BRAM address
-	<li>Phase increment
-	<li>BRAM data out
+	<li>BRAM data out [Base]
+	<li>BRAM data out [Next] (if aiming for B or A functionality)
+	<li>Interpolated Value [Base + (Next - Base)*Offset] (if aiming for B or A functionality)
 	<li>Amplitude coefficient (if aiming for B or A functionality)
 	<li>Multiplied data out (if aiming for B or A functionality)
 	<li>Slide switches
