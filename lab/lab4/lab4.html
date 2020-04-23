@@ -117,7 +117,12 @@ Hints for the amplification: Amplitude multiplication must be done on signed val
 <del>Use the microBlaze to capture a keyboard input to manipulate the amplitude and frequency.  The user
 will enter in an integer frequency and you are to produce a waveform 
 with that frequency. </del>
-Modify the hardware for the right channel to interpolate between samples using (base + next-base)*offset) method. You may swap A and B functionality if desired.
+Modify the hardware for the right channel to interpolate between samples using (base + (next-base)*offset) method. You may swap A and B functionality if desired.
+While I deleted the B-Level requirement this year to create a 2nd signal for channel 2 (requiring a different signal than a sine created in a 2nd BRAM and duplicate hardware), 
+if you are going to try for A functionality and create the Interpolated signal (for channel 1), you also must create the un-interpolated signal (for channel 2), 
+so you can compare ch1 and ch2 to see the difference. This does NOT require duplicate hardware, since in calculating the interpolated signal, 
+you also already create the un-interpolated signal (known as BASE).  However, you will need the amplify BASE the same way you amplify the interpolated signal before if goes to channel 2. 
+
  
 
 <h2>Milestone 1</h2>
