@@ -104,8 +104,8 @@ then it is basically doing unsigned multiplication with a signed multiplier. For
 <ul> 
 <li> Interpolated = Base + (Next - Base )* Offset
 </ul>
-works great for signed numbers,  but has has issue for unsigned numbers. If Next is greater than Base, the math works.  What happens when Base is greater than Next? 
-In this case, (Next - Base) would be negative, but unsigned signals cannot represent negative values. So here is psuedo-code for fixing this issue with unsigned numbers:
+works great for signed numbers,  but has an issue for unsigned numbers. If Next is greater than Base, the math works.  What happens when Base is greater than Next? 
+In this case, (Next - Base) would be negative, but unsigned signals cannot represent negative values. So here is pseudo-code for fixing this issue with unsigned numbers:
 <ul> 
 <li> If Next > Base then   
 <li>    Interpolated = Base + (Next - Base ) * Offset;
