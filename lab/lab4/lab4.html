@@ -55,10 +55,10 @@ on how to accomplish this.
 While you have the flexibility to design the waveform generator as you see 
 fit, your system must meet the following requirements:
 <ol>	<li>Use an update rate of 48kHz
-	<li>Your function generator should be able to create a maximum frequency of 12000 Hz without aliasing.
+	<li>Your function generator should be able to create a maximum frequency of 12000 Hz.
 	<li>Your function generator should be able to create a minimum frequency between a 0.5 Hz and 1.0 Hz (this is also the minimum change in frequency).  
 	<li>When your phase increment X = 1.0, the output frequency should be 200 Hz +/- 20 Hz.
-	<li>Be able to generate a full amplitude waveform.
+	<li>Be able to generate a full amplitude waveform on your lab2 o'scope display.
 	<li>Only one BRAM may be used for each channel.
 	<li>A FSM must be used to control the datapath. 
 	<li>Microblaze is not required, but may be used if desired.
@@ -80,6 +80,56 @@ You will also turn in a modified Lab2 block diagram for milestone 1.  The modifi
 (which is now inside the block diagram for Lab4).  Instead Lab2 will receive L_bus_out, R_bus_out, and Ready from Lab4 block diagram. 
 Since the lab4 hardware will be using all the buttons and switches, you need to delete the buttons in the Lab2 block diagram for tr_volt and tr_time.
 For these two values, just hard-code them as a constant.
+<br><br>
+Signed Multiplication with Unsigned Data: Our VHDL multiplier does signed multiplication, not unsigned multiplication. While the input/output signals from the Audio Codec are signed, in lab2 we 
+converted them to unsigned (18-bits) by:
+<ul> 
+<li> data_out_unsigned <= data_out_signed - x20000;
+</ul>
+Your lab2 BRAM and Scopeface are designed based on unsigned values (And the sine wave you initialize in your BRAM for lab4 is most likely unsigned),
+so you will most likely want to do your interpolator math in unsigned values.  This raises 3 issues:
+<ol> 
+<li> We need to fool the signed multiplier to do unsigned multiplies. Signed numbers are only negative when the MSb is a "1". 
+If the MSb is a '0', it is positive, it is unsigned.  If both operands have a MSb that is '0', 
+then it is basically doing unsigned multiplication with a signed multiplier. For example:
+<ul> 
+<li> signal A,  B : std_logic_vector(7 downto 0);
+<li> signal As, Bs     : signed(8 downto 0);
+<li> signal Cs         : signed(17 downto 0);
+<li> As <= signed('0' & A); -- add zero to ensure it is positive
+<li> Bs <= signed('0' & B);
+<li> Cs <= As * Bs;  -- fool signed multiply to do unsigned multiply
+</ul>
+<li> Our simple equation for interpolation:
+<ul> 
+<li> Interpolated = Base + (Next - Base )* Offset
+</ul>
+works great for signed numbers,  but has has issue for unsigned numbers. If Next is greater than Base, the math works.  What happens when Base is greater than Next? 
+In this case, (Next - Base) would be negative, but unsigned signals cannot represent negative values. So here is psuedo-code for fixing this issue with unsigned numbers:
+<ul> 
+<li> If Next > Base then   
+<li>    Interpolated = Base + (Next - Base ) * Offset;
+<li> else
+<li>    Interpolated = Base - (Base - Next ) * Offset;
+<li> end if;
+<li> 
+</ul>
+<li> The last issue is ensuring you align the binary points correctly for the math and grab the appropriate bits for the final answer, especially
+since we appended a '0' to our input values.  [notation below: o is a ‘0’ and X is a hex digit]
+<ul> 
+<li> I append a ‘0’ to the MSb of Base (oXXXX.), Next (oXXXX.), offset (o.XX) and amp (oX.X), then kept track of the ‘o’ in later operations to make sure I aligned the binary points correctly.   
+<li>     Delta = Next - Base;           — oXXXX. - oXXXX. = oXXXX.
+<li>     Delta_Offset = Delta * Offset; — oXXXX. * o.XX = ooXXXX.XX
+<li> For the next instruction, I need to add Base (oXXXX.) to Delta_Offset (ooXXXX.XX), To do this I need to align their binary point 
+and make them have the same number of bits, so for Delta_Offset, I will remove its first ‘0’, and its last two hex digits XX, leaving it in the form oXXXX.
+<li>     Interp = Base + Delta_Offset; — oXXXX. + oXXXX. = oXXXX.
+<li>     Amp_Interp = Amp * Interp =  oX.X * oXXXX = ooXXXXX.X
+<li> Then to send the final output signal, depends on how many bits your want, like 18 for the codec.  
+In this case, I delete the two MSb “00” on the left, and then send the next 18 MSbs to the Codec 
+(since this value is unsigned, and the codec needs a signed value, I subtract x”20000” from these 18 bits first)
+</ul>
+</ol>
+
 
 <h2>Required Functionality</h2>
 Use the slide switches and push buttons to manipulate the phase increment and the 
@@ -105,13 +155,7 @@ wait for the ready signal.
 </ul>
 For B-level Interpolation between the output samples is not required.
 <br><br>
-Hints for the amplification: Amplitude multiplication must be done on signed values, so either
-<ul> 
-<li> Make your sine wave BRAM LUT values signed, or
-<li> As you read these BRAM LUT values out, convert them from unsigned to signed (i.e., subtract 0x8000), or
-<li> Before multiplication, convert from unsigned to signed (i.e., subtract 0x8000)
-<li> [Another Note: it appears the multiplication of two signed numbers (where one is really unsigned) still works (i.e., it doesn't sign extend...)]
-</ul>
+
 
 <h2>A-level Functionality</h2>
 <del>Use the microBlaze to capture a keyboard input to manipulate the amplitude and frequency.  The user
@@ -129,7 +173,7 @@ you also already create the un-interpolated signal (known as BASE).  However, y
 At the COB of the day of the first lab session, you should have completed your design and uploaded it to bitbucket.
 This should include the mathematical analysis you did to meet the requirements in the "Requirements" section above, concluding with the Q format required for your phase increment (like Qxx.xx).
 Given your Q format, show calculations for 
-<br>(1) phase increment needed for the maximum frequency without aliasing 
+<br>(1) phase increment needed for the maximum frequency of 12,000 Hz 
 <br>(2) the size of the BRAM buffer needed, assuming it contains one cycle of a sinusoid 
 <br>(3) the minimum frequency produced 
 <br>(4) the frequency produced when your phase increment is 1.0
