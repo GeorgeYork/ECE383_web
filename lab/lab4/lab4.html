@@ -67,19 +67,24 @@ fit, your system must meet the following requirements:
 
 <h2>Hardware</h2>
 You will have to generate the block diagram for your lab4 function generator and 
-upload it to bitbucket for milestone 1.  Your design must be segregated into a datapath and 
-control unit. Your design must show the blocks in the datapath,
+upload it to bitbucket for milestone 1.  Your design must be segregated into a lab4 datapath and a lab4
+control unit. Your design must show the all the needed BBB design blocks in the lab4 datapath,
 the states in the FSM, the control word, and the status word joining 
 the datapath and control unit. All bus widths and Q formats for registers must be shown. This diagram must be neat and readable.
-Your lab4 block diagram will need to borrow the Audio_Codec_Wrapper (with Clock_Wiz_1) from the Lab#2 block diagram.  
-The Codec will produce the "Ready" signal you will feed as a input signal into your FSM. The final value for your left and right
-signal you generate will be connected to the Codec's L_Bus_in and R_Bus_in so you can listen to the output tones using ear-buds or a speaker.
+
 <br><br>
-Since you most likely do not have an oscilloscope at home to see your output signal, you will use your Lab#2 o'scope, which will need to be modified. 
-You will also turn in a modified Lab2 block diagram for milestone 1.  The modified Lab2 block diagram no longer needs the Audio_Codec_Wrapper 
-(which is now inside the block diagram for Lab4).  Instead Lab2 will receive L_bus_out, R_bus_out, and Ready from Lab4 block diagram. 
+The final value for your left and right
+signal you generate will be connected to the Codec's L_Bus_in and R_Bus_in so you can listen to the output tones using ear-buds or a speaker, 
+and will also be sent to your Lab2 O'Scope.
+Since you created an O'Scope in Lab2, you will use this to see your output signal on your monitor. 
+Since your lab4 FSM and lab4 datapath will need the Audio_Codec_Wrapper (with Clock_Wiz_1) and "Ready" signal from Lab2,
+the simpliest design is to put your Lab4 FSM and Lab4 datapath inside your lab2 block diagram.  
+Therefore, you will also turn in a modified Lab2 block diagram with the Lab4 FSM and Lab4 datapath inside for milestone 1.  
+You will not send the audio codec L_bus_out and R_bus_out as inputs to your Lab2 video,  but instead your lab4 datapath interpolator will create
+the L_bus_out and R_bus_out and send this to the Lab2 video.
 Since the lab4 hardware will be using all the buttons and switches, you need to delete the buttons in the Lab2 block diagram for tr_volt and tr_time.
 For these two values, just hard-code them as a constant.
+
 <br><br>
 Signed Multiplication with Unsigned Data: Our VHDL multiplier does signed multiplication, not unsigned multiplication. While the input/output signals from the Audio Codec are signed, in lab2 we 
 converted them to unsigned (18-bits) by:
