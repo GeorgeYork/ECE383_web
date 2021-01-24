@@ -34,9 +34,6 @@
 
 <h1>Lab 1 - Video Synchronization</h1>
 
-<h2>First Step of Lab</h2>
-The first thing to do is create a Bitbucket repo for this lab with a README file (can be in markdown, word, pdf, etc) which includes the Milestone Table shown in the Turn In section below. You should update this as you achieve each milestone. Your instructor will go to this table first when grading each of your milestones, looking for evidence that the milestone was achieved.
-
 <h2>Lab Overview</h2>
 In this lab, you will write a VGA controller in VHDL and implement 
 it on your FPGA development board.  You will be provided a VGA-to-HDMI 
@@ -295,7 +292,7 @@ get the lab to work.
 <br><img src="./img/board.jpg"><br><br>
 
 <h2>Gate Checks for Required Functionality</h2>
-There are 2 gate checks associated with this lab, each worth 5 points - see the rubric below.
+There are 2 gate checks associated with this lab, each worth 5 points - see the rubric below. This year we will use Gradescope to track when you complete the milestones.
 <h3>Gate Check 1</h3>
 By COB Lesson 6, you  must have finished setting up the VGA counters to generate the proper 
 rows and columns on the waveform.  This can be shown with waveform screenshots from the VGA testbench 
@@ -310,6 +307,7 @@ include screenshots of waveforms showing:
 	<li>Show the v_synch going high, low, and high in relation to v count.
 	<li>Show the blank signals going high, low, and high in relation to v count and h count.
 </ul> 
+Upload these products to bitbucket. Demo can be live to your instructor or a video uploaded to Streams.
 <h2>Required Functionality</h2>
 For Required Functionality your code must generate the white oscilloscope grid pattern shown 
 in the Figure above and draw the two channels of traces.  
@@ -320,7 +318,7 @@ To test this draw:
 (row = 440-column).  
 	<li>This test code should be placed in the Lab1 entity.
 </ul>
-
+Upload these products to bitbucket. Demo can be live to your instructor or a video uploaded to Streams.
 
 
 <h2>A-level functionality</h2>
@@ -348,27 +346,28 @@ The channel 2 trace (green) should be drawn along a diagonal where
 (row = 440-column).  This test code should be placed in the Lab1
 entity.
 
+Upload these products to bitbucket. Demo can be live to your instructor or a video uploaded to Streams.
 
 <h2>Turn In</h2>
-All your work in this lab is to be submitted using Bitbucket.  The main part of the
-lab is your README, documenting your design.
+All your work in this lab is to be uploaded to Bitbucket and you will make submission in Gradescope to record the time each milestone is completed.  The main part of the
+lab is your README, documenting your design.  The README can be in markdown, word, or a pdf, and should be uploaded to bitbucket.
 Your README must include the following:
 
 <ul>
 <li><strong>Introduction</strong> - Provide a brief overview of the 
 problem.</li>
 
-<li><strong>Implementation</strong> - Provide block-diagram of your 
+<li><strong>Design/Implementation</strong> - Include your diagrams from HW#5.  Provide the block-diagram of your 
 solution using the <strong>signal names in your code</strong>.  The
 block diagram given above is somewhat incomplete, <strong>make sure to include
 corrections to this diagram</strong>.  An editable block diagram PPT is provided 
 at the top of the page.  For each module that you built, explain
-its overall purpose, inputs, outputs, and behavior.  Include all your
-vhdl files (code and testbench), wcfg file, and bit files.  Put these
-in a folder called "code".</li>
+its overall purpose, inputs, outputs, and behavior.  You do not need to include code in this report 
+(instead put all your vhdl files (code and testbench), wcfg file, and bit files in bitbucket) </li>
 
 <li><strong>Test/Debug</strong> - Briefly describe the methods used 
-to verify system functionality.  Show at least three excerpts from your 
+to verify system functionality  (such as products from gate check 1 and 2).
+  Show at least three excerpts from your 
 testbench for the VGA module (as screen shots):
 <ul type="a">
 	<li>Show the h_synch going high, low, and high in relation to h count.  
@@ -384,12 +383,14 @@ This should cover all the problems you encountered in the lab and
 how you fixed them.  Break each problem and solution into separate 
 paragraphs.</li>
 
-<li><strong>Results</strong> - Since we no longer use the printed lab cutsheets
-signed by your instructor as you meet each milestone, this section should clearly
-state for each milestone/functionality the date/time it was achieved, level of achievement 
-(e.g, achieved, partially-achieved, not achieved), what was achieved, and how you proved it 
-(via demo or evidence like images/videos).  
-For example, you could have a table like this:
+<li><strong>Results</strong> - This section should clearly state for 
+each milestone/functionality the date/time it was achieved, level of achievement 
+(e.g, achieved, partially-achieved, not achieved), what was achieved, and 
+evidence you proved it worked (e.g., via demo or images/videos).
+
+We no longer use the printed lab cutsheets
+signed by your instructor as you meet each milestone, but instead have you make a submission in Gradescope for each milestone. 
+For example, you could have entries like this:
 
 <table class="table table-striped table-bordered">
 <thead>
@@ -404,7 +405,7 @@ For example, you could have a table like this:
 <tr>
 <td align="center" colspan="1">Gate Check 1</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">Achieved: Demo'd to instructor, showing testbench simulation plot of the VGA counters generating the proper rows and columns. See testbench1.jpg and discussion in test/debug section </td>
+<td align="center" colspan="1">Achieved: Demo'd to instructor, showing testbench simulation plot of the VGA counters generating the proper rows and columns. See testbench1.jpg and discussion in test/debug section of README (report) on bitbucket. </td>
 </tr>
 
 <tr>
@@ -417,7 +418,7 @@ For example, you could have a table like this:
 <tr>
 <td align="center" colspan="1">Required Functionality</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">Achieved: Demo'd to instructor live program with o'scope grid pattern generated on the monitor, ch1 with a yellow diagonal line and ch2 with a green diagonal line.  See monitor_image2.jpg</td>
+<td align="center" colspan="1">Achieved: Demo'd to instructor live program with o'scope grid pattern generated on the monitor, ch1 with a yellow diagonal line and ch2 with a green diagonal line.  See monitor_image2.jpg in the README (report) on bitbucket.</td>
 </tr>
 
 <tr>
