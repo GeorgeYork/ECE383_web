@@ -102,7 +102,7 @@ begin
 	--		Register to load data in as Key 
 	--      cw(0)
 	--		0			hold
-	--		1			shift right (data comes in at the MSB)
+	--		1			load
 	-----------------------------------------------------------------------------
 	process(clk)
 	begin
