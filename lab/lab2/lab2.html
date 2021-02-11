@@ -28,7 +28,7 @@
 <tr><td>End date:</td>		<td>February 15/16</td></tr>
 <tr><td>Lab:</td>		<td>2</td></tr>
 <tr><td>Status			<td bgcolor = #D0FFD0>Complete <!--<td bgcolor = #FFFFF0>Not Started--> <!--<td bgcolor = #FFD0D0>In Progress -->
-<tr><td>Lab 2 Cutsheet<td><a href="./ECE_383_Lab2_Cutsheet.pdf">ECE_383_Lab2_Cutsheet.pdf</a>
+<!--<tr><td>Lab 2 Cutsheet<td><a href="./ECE_383_Lab2_Cutsheet.pdf">ECE_383_Lab2_Cutsheet.pdf</a>-->
 <tr><td>Lab 2 Editable Block Diagram<td><a href="./ECE383_Lab2_Block_Diagram.pptx">ECE383_Lab2_Block_Diagram.pptx</a><br>
 										<a href="./lab2_block_diagram.vsdx">lab2_block_diagram.vsdx (Visio file)</a>
 <tr><td>Lab 2 Supplemental PowerPoint<td><a href="./ECE_383_Lab2.pptx">ECE_383_Lab2.pptx</a>
@@ -37,9 +37,6 @@
 
 
 <h1>Lab 2 - Data Acquisition, Storage and Display</h1>
-
-<h2>First Step of Lab</h2>
-The first thing to do is create a Bitbucket repo for this lab with a README file (can be in markdown, word, pdf, etc) which includes the Milestone Table shown in the Turn In section below. You should update this as you achieve each milestone. Your instructor will go to this table first when grading each of your milestones, looking for evidence that the milestone was achieved.
 
 <h2>Lab Overview</h2>
 In this lab, we will integrate the video display controller developed
@@ -235,7 +232,7 @@ The <a href="http://keuwl.com/FunctionGenerator">Keuwl Dual Channel
 Function Generator</a> (available on Google Play) works well for Android Phones, and is easy to use once you get the hang of it.
 
 <h2>Gate Checks for Required Functionality</h2>
-There are 3 gate checks associated with this lab, each worth 5 points - see the rubric below.
+There are 3 gate checks associated with this lab, each worth 5 points - see the rubric below. This year we will use Gradescope to track when you complete the milestones.
 
 <h3>Gate Check 1</h3>
 By COB Lesson 13, you must have started a Lab 2 Vivado project and downloaded the template files 
@@ -258,9 +255,11 @@ Additionally your Scopeface and Button inputs from Lab 1 should be functional as
 
 Also, you may need to have implement another Clocking Wizard for the Audio Codec Wrapper inside 
 the Datapath entity to get the bit stream to generate. 
+<br><br>
+The demo can be live to your instructor or a video uploaded to streams.
 
 <h3>Gate Check 2</h3>
-NOTE: THIS IS THE HARDEST PART! By COB Lesson 15, you must have implemented and connected the BRAM 
+NOTE: THIS IS THE HARDEST PART! By COB Lesson 14, you must have implemented and connected the BRAM 
 Address Counter to left and right BRAMs, instantiated the Audio Codec Wrapper in Simulation mode (sim_live = '0'),
 and your control unit, such that your control unit writes the simulated audio data to the left and right BRAM and
 you can see the waveforms plotted on the monitor. (at this point, since there is no trigger, the waveform will be scrolling across the display and the scaling 
@@ -272,6 +271,8 @@ If this does not work, you must create a Testbench to help debug why it is not w
 
 Reminder: implement another Clocking Wizard and the Audio Codec Wrapper inside 
 the Datapath entity to get your Audio Codec to begin functioning (if not done in gate check 1). 
+<br><br>
+The demo can be live to your instructor or a video uploaded to streams.
 
  <h3>Gate Check 3</h3>
 By COB Lesson 16, redo Gate Check 2, except with the Audio Codec Wrapper in Live mode (sim_live = '1'). (at this point, since there is no trigger, the waveform will be scrolling across the display). 
@@ -283,6 +284,8 @@ audio line in jack (blue) and listening to it on the audio line out jack (Green)
 After you finish Gate Check 3, this is a good time to implement proper triggering on the trig_volt value.
 
 If this does not work, you must create a Testbench to help debug why it is not working.
+<br><br>
+The demo can be live to your instructor or a video uploaded to streams.
 
 
 <h2>Required Functionality</h2>
@@ -293,6 +296,8 @@ should display something similar to what is shown in the screenshot at the top o
 
 <ul>	<li><del>Use a package file to contain all your component declarations.</del>
 	<li>Use separate datapath and control unit.
+	<li>The Mini-C design technique can be used but is NOT required.  However, your instructor will expect you create Lab2_cu using the state machine coding style used
+in Lesson 9, with a process for state transitions, separated from a CSA LUT section for generating the output CWs.
 	<li>Your datapath must use processes which are similar
 	to our basic building block (counter, register, mux, etc.).
 	I do not want to see one massive process that attempts
@@ -309,6 +314,8 @@ should display something similar to what is shown in the screenshot at the top o
 	Once you get the datapath testbench running you will notice that DCM module doesn't put out a clock in the 
 	Video Module. </del> 
 </ul>
+<br><br>
+The demo can be live to your instructor or a video uploaded to streams.
 
 <h2>B-level functionality</h2>
 <ul>
@@ -318,6 +325,8 @@ should display something similar to what is shown in the screenshot at the top o
 	<li>Integrate the button debouncing strategy in HW #7 (or an equivalent debouncing method) to debounce the buttons controlling the trigger time and trigger voltage.
 	<li>Move the cursors on the screen.
 </ul>
+<br><br>
+The demo can be live to your instructor or a video uploaded to streams.
 
 <h2>A-level functionality</h2>
 <ul>
@@ -325,27 +334,34 @@ should display something similar to what is shown in the screenshot at the top o
 	<li>Use the trigger voltage marker to establish the actual trigger voltage used to capture the waveform.  As the trigger is moved up and down, you should see the point at which the waveform
 	intersects the left side of the screen change.
 </ul>
+<br><br>
+The demo can be live to your instructor or a video uploaded to streams.
 
 
 <h2>Turn In</h2>
-All your work in this lab is to be submitted using Bitbucket.  The main 
-part of the lab is your README, documenting your design.
+All your work in this lab is to be submitted using Bitbucket and you will make submission in Gradescope to record the time each milestone is completed. 
+The main part of the lab is your README, documenting your design. The README can be in markdown, word, or a pdf, and should be uploaded to bitbucket. 
 Your README must include the following:
 
 <ul>
 <li><strong>Introduction</strong> - Provide a brief overview of the 
 problem.</li>
 
-<li><strong>Implementation</strong> - Provide block-diagram of your 
+<li><strong>Design/Implementation</strong> - Provide block-diagram of your 
 solution using the <strong>signal names in your code</strong>.  The
 block diagram given above is somewhat incomplete, so make sure to include corrections to it.
+Also, include a state transition diagram for your Lab2_cu.
+<br>
+Note: the Mini-C design technique can be used but is NOT required.  However, your instructor will expect you create Lab2_cu using the state machine coding style used
+in Lesson 9, with a process for state transitions, separated from a CSA LUT section for generating the output CWs. 
+<br>
 For each module that you built, explain
 its overall purpose, inputs, outputs, and behavior. Include all your
 vhdl files (code and testbench), wcfg file, and bit files.  Put these
 in a folder called "code".</li>
 
 <li><strong>Test/Debug</strong> - Briefly describe the methods used 
-to verify system functionality. 
+to verify system functionality. Include/discuss any testbench simulation plots you used.
 <ul type="a">
 </ul>
 
@@ -377,8 +393,7 @@ are its capabilities?</del>
 	vsynch signal held low?</del>
 </ol>
 
-<li><strong>Results</strong> - Since we no longer use the printed lab cutsheets
-signed by your instructor as you meet each milestone, this section should clearly
+<li><strong>Results</strong> - This section should clearly
 state for each milestone/functionality the date/time it was achieved, level of achievement 
 (e.g, achieved, partially-achieved, not achieved), what was achieved, and how you proved it 
 (via demo or evidence like images/videos).  
@@ -403,7 +418,7 @@ For example, you could have a table like this:
 <tr>
 <td align="center" colspan="1">Gate Check 2</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">Achieved: Not demo'd to instructor. See video show the two simulated audio signals oscrolling on monitor (not triggered)</td>
+<td align="center" colspan="1">Achieved: Not demo'd to instructor. See video show the two simulated audio signals scrolling on monitor (not triggered)</td>
 </tr>
 
 <tr>
@@ -467,7 +482,7 @@ or the lectures leading up to this lab.</li>
 <td align="center" colspan="1"></td>
 <td align="center" colspan="1">5</td>
 <td align="center" colspan="1"></td>
-<td>COB L15 </td>
+<td>COB L14 </td>
 </tr>
 
 <tr>
