@@ -107,8 +107,8 @@ architecture Behavioral of Audio_Codec_Wrapper is
     signal R_bus_out_sig : std_logic_vector(23 downto 0);
 	signal L_bus_in_sig : std_logic_vector(23 downto 0);
     signal R_bus_in_sig : std_logic_vector(23 downto 0);
-	signal readL : std_logic_vector(17 downto 0);
-    signal readR : std_logic_vector(17 downto 0);    
+	signal readL : std_logic_vector(17 downto 0) := "000000000000000000";
+    signal readR : std_logic_vector(17 downto 0) := "000000000000000000";    
     signal s_readL : std_logic_vector(17 downto 0);
     signal s_readR : std_logic_vector(17 downto 0);
     signal count_stdLogicVector : std_logic_vector(9 downto 0);
