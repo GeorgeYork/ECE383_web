@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -29,7 +28,7 @@
 <tr><td>Lab:</td>		<td>2</td></tr>
 <tr><td>Status			<td bgcolor = #D0FFD0>Complete <!--<td bgcolor = #FFFFF0>Not Started--> <!--<td bgcolor = #FFD0D0>In Progress -->
 <!--<tr><td>Lab 2 Cutsheet<td><a href="./ECE_383_Lab2_Cutsheet.pdf">ECE_383_Lab2_Cutsheet.pdf</a>-->
-<tr><td>Lab 2 Editable Block Diagram<td><a href="./ECE383_Lab2_Block_Diagram.pptx">ECE383_Lab2_Block_Diagram.pptx</a><br>
+<tr><td>Lab 2 Editable Block Diagram<td><a href="./ECE383_Lab2_Block_Diagram_v4.pptx">ECE383_Lab2_Block_Diagram.pptx</a><br>
 										<a href="./lab2_block_diagram.vsdx">lab2_block_diagram.vsdx (Visio file)</a>
 <tr><td>Lab 2 Supplemental PowerPoint<td><a href="./ECE_383_Lab2.pptx">ECE_383_Lab2.pptx</a>
 </table>
@@ -53,7 +52,7 @@ you and some you created in Lab 1.  It is important to note
 that some of the components and signals associated with this
 diagram will not be needed for Lab 2, but have been included because you will need them in Labs 3 and 4.
 
-<br><img src="./img/lab2_block_diagram.jpg"><br><br>
+<br><img src="./img/lab2_block_diagram_v4.jpg"><br><br>
 
 Consider the data in the diagram as flowing from left
 to right.  You will provide an input signal to the Nexys board via a 3.5mm cable connected to the
@@ -107,7 +106,12 @@ but may be a little difficult to wrap your head around, so let's do some example
 The values in the left 2 columns represent the 2's complement number coming out of the Audio Codec, in this case
 L_bus_out, while the right 2 columns represent the output of the box labeled
 "sign2unsign" in the block diagram.  What we are essentially doing is shifting
-the unsigned values up by 131072 (the value which will make all 18-bit numbers positive) so that they all fall into a positive range.
+the unsigned values up by 131072 (the value which will make all 18-bit numbers positive) so that they all fall into a positive range. 
+If you notice the pattern for these 5 number conversions, the lower 17-bits do not change. Only the most-significant-bit changes, 
+and it is just inverted.  In the zip file, there is a simple testbench called convert_unsigned_tb.vhdl you can modify to test this math. If you want to "not" the MSB
+and then concatenate "&" back the lower 17-bits, I'd recommend doing this as a std_logic_vector.  You can also do this conversion with
+the number stored as an unsigned. In this case you can add a special number that keeps the lower 17-bits the same, but inverts the MSB.
+If you do this conversion correctly using the testbench, you should get an output simulation plot similar to sim_plot_test_convert.jpg in the zip file.
 <br><br>
 
 Here are a couple more pieces of info to help you understand the block diagram above.
@@ -218,6 +222,7 @@ The files below will give you a start on Lab 2.
 			<li>lab2_fsm (you need to create this).
 		</ul>
 	<li>Constraint file: <a href="./code/Lab2.xdc">Lab2.xdc </a>
+	<li>All this code is in this ZIP file, plus some extra testbenches: <a href="./code/lab2_code_for_cadets.zip">lab2_code_for_cadets.zip </a>
 	<!--<li><a href="./code/ac97.vhd">ac97.vhd (for Xilinx ISE)</a>-->
 	<!--<li><a href="./code/lab2.ucf">lab2.ucf (for Xilinx ISE)</a>-->
 </ul>
@@ -238,14 +243,15 @@ There are 3 gate checks associated with this lab, each worth 5 points - see the 
 By COB Lesson 13, you must have started a Lab 2 Vivado project and downloaded the template files 
 and drop in your Video, VGA, Scopeface, dvid, and tdms files from Lab 1 into your Lab 2 project 
 in order to test your Lab 1 Scopeface works when you implement your BRAM using the two initialized
-signal examples in BRAM_example_init.vhd. This does not require the audio or your control unit is working yet.
+signal examples in BRAM_example_init.vhd. This does not require the audio wrapper (and clockwiz_1) or your control unit is working yet, so you do not need to include these vhdl files in your design yet if you don't want to.
 Your Scopeface/Video should continuously be reading the left and right BRAM signals displaying them on the monitor.
 You must implement Video entity (from Lab 1) to take the channel output from the left and right BRAMs and send it to the Channel 1 and 2
 inputs to be displayed when the readL and readR values equal the row value.  Implement 
 this on the hardware and verify that your scopeface is still present and some values are being 
-displayed for Channel 1 (at this point, since there is no trigger, the waveform will be scrolling across the display and the scaling 
+displayed for Channel 1 (at this point the scaling 
 may be wrong). After you demo this, this is a good opportunity to work on scaling the signals 
-so their DC value is centered on your grids y-axis.
+so their DC value is centered on your grids y-axis.  Note: the DC center value on your scope is row 220, while
+if you grabbed the upper ten bits from the BRAM DO, its DC center value will be 512 (a difference of 512-220 = 292)
 
 Notice from the block diagram you will copy your Video instantiation and button processes from Lab 1 
 into your Lab 2 Datapath.  You will also have to re-implement the Lab 1 Clocking Wizard in you 
@@ -256,23 +262,28 @@ Additionally your Scopeface and Button inputs from Lab 1 should be functional as
 Also, you may need to have implement another Clocking Wizard for the Audio Codec Wrapper inside 
 the Datapath entity to get the bit stream to generate. 
 <br><br>
-The demo can be live to your instructor or a video uploaded to streams.
+The demo can be live to your instructor or an image uploaded to streams.
 
 <h3>Gate Check 2</h3>
 NOTE: THIS IS THE HARDEST PART! By COB Lesson 14, you must have implemented and connected the BRAM 
 Address Counter to left and right BRAMs, instantiated the Audio Codec Wrapper in Simulation mode (sim_live = '0'),
 and your control unit, such that your control unit writes the simulated audio data to the left and right BRAM and
-you can see the waveforms plotted on the monitor. (at this point, since there is no trigger, the waveform will be scrolling across the display and the scaling 
-may be wrong).  Remember you must successfully convert the signed audio data 
+you can see the waveforms plotted on the monitor. (at this point, since there is no trigger, the waveform may or may not be scrolling across the display and the scaling 
+may be wrong. The simulated Audio Wrapper is continually sending out 1024 samples, and if your counter (with FSM) are in sync writing 1024 values,
+it will be writing the same 1024 values over and over, making the output waveforms on appear stationary. If you want the simulated waveforms
+to scroll as if they are not triggered, change your counter rollover to a lesser value like 640... remember there are only
+640 columns on scopeface displayed.  Another note about this counter: since your first column on your scopeface is column 20, 
+should you initialize the counter at 20?).
+  You must successfully convert the signed audio data 
 from the Audio_Codec_Wrapper into unsigned data needed for the monitor. After you demo this, this is a good opportunity to work on scaling the signals 
-so their DC value is centered on your grids y-axis.
+so their DC value is centered on your grids y-axis and possibly work on the trigger hardware.
 
-If this does not work, you must create a Testbench to help debug why it is not working.
+If this does not work, you must create a Testbench to help debug why it is not working (see example testbenches in the zip file).
 
 Reminder: implement another Clocking Wizard and the Audio Codec Wrapper inside 
 the Datapath entity to get your Audio Codec to begin functioning (if not done in gate check 1). 
 <br><br>
-The demo can be live to your instructor or a video uploaded to streams.
+The demo can be live to your instructor or an image (if stationary) or video (if scrolling) uploaded to streams.
 
  <h3>Gate Check 3</h3>
 By COB Lesson 16, redo Gate Check 2, except with the Audio Codec Wrapper in Live mode (sim_live = '1'). (at this point, since there is no trigger, the waveform will be scrolling across the display). 
