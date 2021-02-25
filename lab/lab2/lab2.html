@@ -259,8 +259,10 @@ So to continually read, we set RDEN <= '1'.  You can then compare this DO value 
 <br><br>
 After you demo this, this is a good opportunity to work on scaling the signals 
 so their DC value is centered on your grids y-axis.  Note: the DC center value on your scope is row 220, while
-if you grabbed the upper ten bits from the BRAM DO, its DC center value will be 512 (a difference of 512-220 = 292)
-
+if you grabbed the upper ten bits from the BRAM DO, its DC center value will be 512 (a difference of del_x = 512-220 = 292).
+  How does this change the comparitor you use to assign ch1 and ch2? (which compares if ReadL = row... 
+  does it need to now compare something like if ReadL = row +/- del_x ?)
+<br><br>
 Notice from the block diagram you will copy your Video instantiation and button processes from Lab 1 
 into your Lab 2 Datapath.  You will also have to re-implement the Lab 1 Clocking Wizard in you 
 Lab 2 project.  Doing this will eliminate a lot of errors from un-driven output signals on lab 2 top.
@@ -308,7 +310,8 @@ serial ADC input back out to the DAC output (i.e. send the signal back into the 
 implement the design on the board, you can verify functionality by applying an audio signal to the 
 audio line in jack (blue) and listening to it on the audio line out jack (Green), and seeing the output on the monitor.
 
-After you finish Gate Check 3, this is a good time to implement proper triggering on the trig_volt value.
+After you finish Gate Check 3, this is a good time to implement proper triggering on the trig_volt value. Besides the hardware to create the SW 
+to signal the trigger, you'll also need to add an initial state to "wait for trigger" in your FSM. The rest of the FSM is basically the same.
 
 If this does not work, you must create a Testbench to help debug why it is not working.
 <br><br>
