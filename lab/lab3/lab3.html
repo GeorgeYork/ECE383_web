@@ -32,14 +32,6 @@
 
 <h1>Lab 3 - Software control of a datapath</h1>
 
-<h2>First Step of Lab</h2>
-The first thing to do is create a Bitbucket repo for this lab with a README file (can be in markdown, word, pdf, etc) which includes the Milestone Table shown in the README section below. You should update this as you achieve each milestone. Your instructor will go to this table first when grading each of your milestones, looking for evidence that the milestone was achieved.
-
-<h2>Pre-initialize BRAM with a Signal</h2>
-See this example BRAM initialization code: <a href="BRAM_example_init.vhd">BRAM_example_init.vhd</a>.
-This initializes your left BRAM to have a sine wave and your right BRAM to have a different wave.
-This can be used for an initial test (without audio working) to see if the data in the BRAM is displayed on the Monitor.
-
 <h2>Lab Overview</h2>
 In this lab, we will integrate the video display controller developed
 in Lab 2 with the MicroBlaze processor built using the fabric of the Artix-7 FPGA.
@@ -47,10 +39,11 @@ In the preceding lectures, we learned about the Vivado and
 SDK tool chains, now it's time to put that knowledge to the test by building
 a software controlled datapath.  Lab 2 revealed some shortcomings of our 
 oscilloscope that this lab intends on correcting. Specifically, we will add:
-<ul>	<li>A horizontal trigger point
+<ul>	<li>Using both trigger volt and trigger time for the trigger
+	<li>Using polling and/or interrupts
 	<li>The ability to enable and disable which channels are being displayed
-	<li>The ability to trigger off of channel 2
-	<li>The ability to change the slope direction of the trigger
+	<li><del>The ability to trigger off of channel 2</del>
+	<li><del>The ability to change the slope direction of the trigger</del>
 </ul>
 
 The following figure shows required functionality - your program should allow
@@ -103,7 +96,7 @@ in <a href="../lab2/lab2.html">Lab 2</a>.
 </td></tr>
 </table>
 
-NEW FOR 2019: Instead of doing this ECO, you have the option of retaining your
+NEW FOR 2021: Instead of doing this ECO, you have the option of retaining your
 Lab2 buttons to control Trigger Volt and Trigger Time, but you must input these
 signals into Microblaze, and be able to display the values on the UART monitor
 
@@ -126,7 +119,7 @@ The following table should help.
 <tr><td>triggerTime			<td>sda 
 <tr><td>triggerVolt			<td>scl 
 <tr><td>ready 				<td>tmds 
-<tr><td>					<td>tmdsb 
+<tr><td>ch1_enb, ch2_enb?	<td>tmdsb 
 </table>
 
 <h2>Software</h2>
@@ -136,13 +129,14 @@ The following table should help.
 as #define's with a name ending in "Reg".  
 <li>Any register with bit fields will have the bit index setup as 
 #define's with a name ending in "Bit".
-<li>The flagQ and flagClear registers need to be at the same address.
+<li><del>The flagQ and flagClear registers need to be at the same address.</del>
 </ul>
 
 
 <h2>Gate Check 1</h2>
 You need to have all of your Lab 2 functionality implemented with the Microblaze.
-That is, you need to be able to set ExSel to '0' from your microblaze C program and be able to achieve the same functionality as you did in Lab 2.
+That is, you need to be able to set ExSel to '0' from your microblaze C program and be able to achieve the same 
+functionality as you did in Lab 2.
 
 
 <h2>Gate Check 2</h2>
@@ -162,7 +156,7 @@ the MicroBlaze will include:
 <ul>	<li>Move audio samples into a pair of circular buffers.  These circular
 	buffers will be maintained in the address space of the MicroBlaze. That
 	is, you should have two big arrays defined in your program.
-	Use polling of the ready bit of the flag register. [2019 change: you have the option of using a circular or linear buffer]
+	Use polling of the ready bit of the flag register. [2021 change: you have the option of using a circular or linear buffer]
 	<li>Examine the samples, looking for a trigger event.
 	<li>Fill the remaining sample slots in memory.
 	<li>Move the appropriate buffer values into the display memory of
@@ -181,6 +175,9 @@ the MicroBlaze will include:
 	The ISR should store the samples (left and right), look for a triggering
 	event, and signal when the stored samples should be transfered to the
 	BRAM in the oscilloscope component.
+	<li>Add means to control Ch1_enb and Ch2_enb either by adding two FPGA board switches or 
+	controlled by microblaze terminal interface.
+
 </ul>
 
 <h2><del>A-level Functionality</del></h2>
@@ -199,11 +196,17 @@ interrupt signal.  This may require you to extract the one bit Q as a separate
 signal to connect to the MicroBlaze in your block design. 
 
 <h2>README</h2>
-<li>For this lab, README only needs to include evidence of completing Gate Checks 1 and 2, functionality, and A-functionality, along with the date/time achieved.
+<ul>
+For this lab, README only needs 
+<li> Design: Updated lab2 block diagram with correct signals
+<li> Design: Mapping of 32 AXI registers to lab2 signals
+<li> Issues and lessons learned
+<li> Evidence of completing Gate Checks 1 and 2, functionality, and A-functionality, along with the date/time achieved.
 This section should clearly state for each milestone/functionality the date/time it was achieved, level of achievement 
 (e.g, achieved, partially-achieved, not achieved), what was achieved, and how you proved it 
 (via demo or evidence like images/videos).  
 For example, you could have a table like this:
+</ul>
 
 <table class="table table-striped table-bordered">
 <thead>
@@ -316,7 +319,7 @@ block.
 <td align="center" colspan="1">Required Functionality</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">50</td>
+<td align="center" colspan="1">45</td>
 <td align="center" colspan="1"></td>
 <td>COB L25 </td>
 </tr>
@@ -349,7 +352,7 @@ block.
 <td align="center" colspan="1">README</td>
 <td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">5</td>
+<td align="center" colspan="1">10</td>
 <td align="center" colspan="1"></td>
 <td>COB L26</td>
 </tr>
