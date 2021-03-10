@@ -322,9 +322,11 @@ The demo can be live to your instructor or a video uploaded to streams.
 Get a single channel of the oscilloscope to display with
 reliable triggering that holds the waveform at a single
 point on the left edge of the display (like having a fixed trigger_volt).  A 220Hz waveform
-should display something similar to what is shown in the screenshot at the top of this page. Additionally, you must have the following done:
+should display something similar to what is shown in the screenshot at the top of this page. 
+Additionally, you must have the following done:
 
 <ul>	<li><del>Use a package file to contain all your component declarations.</del>
+	<li>The waveform displayed should be centered about the center of the grid (row 220)
 	<li>Use separate datapath and control unit.
 	<li>The Mini-C design technique can be used but is NOT required.  However, your instructor will expect you create Lab2_cu using the state machine coding style used
 in Lesson 9, with a process for state transitions, separated from a CSA LUT section for generating the output CWs.
@@ -352,8 +354,8 @@ The demo can be live to your instructor or a video uploaded to streams.
 	<li>You can swap the A and B functionality order if you like
 	<li>Meet all the requirements of required functionality	
 	<li>Add a second channel (in green).
-	<li>Integrate the button debouncing strategy in HW #7 (or an equivalent debouncing method) to debounce the buttons controlling the trigger time and trigger voltage.
-	<li>Move the cursors on the screen.
+	<li>Include the flag register and exSel (and other ex___ signals) with their muxes as shown in the block diagram
+
 </ul>
 <br><br>
 The demo can be live to your instructor or a video uploaded to streams.
@@ -361,8 +363,13 @@ The demo can be live to your instructor or a video uploaded to streams.
 <h2>A-level functionality</h2>
 <ul>
 	<li>Meet all the requirements of B-level functionality.
-	<li>Use the trigger voltage marker to establish the actual trigger voltage used to capture the waveform.  As the trigger is moved up and down, you should see the point at which the waveform
-	intersects the left side of the screen change.
+	<li>Use the trigger voltage marker to establish the actual trigger voltage used to capture the waveform.  
+	As the trigger is moved up and down, you should see the point at which the waveform
+	intersects the left side of the screen change. The trigger arrow marker must be calibrated 
+	with the start of the waveform at column 20
+	<li>Integrate the button debouncing strategy in HW #7 (or an equivalent debouncing method) to debounce 
+	the buttons controlling the trigger time and trigger voltage.
+	<li>Move the trigger volt and trigger time cursors on the screen using the buttons.
 </ul>
 <br><br>
 The demo can be live to your instructor or a video uploaded to streams.
