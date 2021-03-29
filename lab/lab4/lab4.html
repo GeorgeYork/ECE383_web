@@ -33,9 +33,6 @@
 The goal of this lab is to generate an audio waveform with a high degree
 of accuracy in both its period and frequency.  
 
-<h2>First Step of Lab</h2>
-The first thing to do is create a Bitbucket repo for this lab with a README file (can be in markdown, word, pdf, etc) which includes the Milestone Table shown in the README section below. You should update this as you achieve each milestone. Your instructor will go to this table first when grading each of your milestones, looking for evidence that the milestone was achieved.
-
 <h2>Lab Overview</h2>
 You are to use Direct Digital Synthesis to reproduce your audio waveform. For required functionality your system should create a sinusoid.
 <del> For B-Level functionality, you must create a different waveform on the other channel.
@@ -60,8 +57,8 @@ fit, your system must meet the following requirements:
 	<li>When your phase increment X = 1.0, the output frequency should be 200 Hz +/- 20 Hz.
 	<li>Be able to generate a full amplitude waveform on your lab2 o'scope display.
 	<li>Only one BRAM may be used for each channel.
-	<li>A FSM must be used to control the datapath. 
-	<li>Microblaze is not required, but may be used if desired.
+	<li>A FSM must be used to control the datapath. (using FSM coding style taught in lesson 9) 
+	<li>Microblaze is not required, but may be used if desired in place of the FSM.
 </ol>
 
 
@@ -147,7 +144,7 @@ amplitude of the waveform as follows:
 </ul>
 For required functionality, Interpolation between the output samples is not required.
 
-The waveform should be played back through the Audio Codec interface on the left channel. Remember to
+The waveform should be played back through the Audio Codec interface on the left channel and displayed on your lab2 scopeface monitor. Remember to
 wait for the ready signal.
 
 <h2>B-level Functionality</h2>
@@ -169,7 +166,7 @@ with that frequency. </del>
 Modify the hardware for the right channel to interpolate between samples using (base + (next-base)*offset) method. You may swap A and B functionality if desired.
 While I deleted the B-Level requirement this year to create a 2nd signal for channel 2 (requiring a different signal than a sine created in a 2nd BRAM and duplicate hardware), 
 if you are going to try for A functionality and create the Interpolated signal (for channel 1), you also must create the un-interpolated signal (for channel 2), 
-so you can compare ch1 and ch2 to see the difference. This does NOT require duplicate hardware, since in calculating the interpolated signal, 
+so you can compare ch1 and ch2 to see the difference (and include an image of your scopeface monitor showing this difference). This does NOT require duplicate hardware, since in calculating the interpolated signal, 
 you also already create the un-interpolated signal (known as BASE).  However, you will need the amplify BASE the same way you amplify the interpolated signal before if goes to channel 2. 
 
  
@@ -186,20 +183,9 @@ Given your Q format, show calculations for
 <br>(6) what that closest frequency to
 440 Hz is that you can create.  
 <br>[Hint: we did these calculations in the last slides for Lesson 26]
-<br>You should also include the hardware block diagram design and the State Machine design for the items listed in the "Hardware" section above [the lab4 and modified lab3 block diagrams]. The block diagrams must look professional and not sloppy.
- These diagrams must contain the following:
 <ul>
-<li>A border defining the top-level entity.  Borders for each of the 
-	components instantiated within the top-level entity.
-<li>All components must be named in the upper left corner.
-<li>All signals entering and exiting components must have their 
-	port name defined just inside the border.
-<li>All signals outside the components must have their width defined (if more than one bit)
-	as well as be labeled with their names. The Q format should be specified on the BBBs where appropriate. 
-<li>Here is a draft of a portion of the example Lab4 block diagram, <a href="Interpolation_block_diagram.pptx">Interpolation Block Diagram</a>
-	
 </ul>
-To determine the frequency of your signals, we need to know what the time axis is for the lab2 O'scope you created. [Remember: frequency = 1/(period of one cycle)]
+To determine the frequency of your signals on the scopeface monitor, we need to know what the time axis is for the lab2 O'scope you created. [Remember: frequency = 1/(period of one cycle)]
 You are filling your lab2 BRAM at a rate of 48KHz, so each scopeface pixel (or column count) corresponds in time to 1/(48 kHz) = 20.8333333 micro-seconds.
 You are drawing the wave from column 20 to 620, or 600 pixels. 
 <br>(7) how long in time do these 600 pixels represent?
@@ -207,13 +193,21 @@ You are drawing the wave from column 20 to 620, or 600 pixels.
 <br>(8) how long in time do these grid blocks represent?
 <br>(9) If your function generate creates a sine wave such that exactly two cycles of the sinewave fit on your scopeface (ie., across 600 pixels), what is the frequency of this sine wave?
 <br>(10) What must your phase increment be to generate this sine wave?
-
+<ul>
+</ul>
+<br>You should also include the hardware block diagram design and the State Machine design for the items listed in the "Hardware" section above [the lab4 and modified lab3 block diagrams]. The block diagrams must look professional and not sloppy.
+<br>(11)The datapath for the lab4 interpolation hardware.
+<li>All signals outside the components must have their width defined (if more than one bit)
+	as well as be labeled with their names. The Q format should be specified on the BBBs where appropriate. 
+<li>Here is a draft of a portion of the example Lab4 block diagram, <a href="Interpolation_block_diagram.pptx">Interpolation Block Diagram</a>
+<br>(12) The FSM state transition diagram and CW output table 	
+<br>(13) The overall top-level lab4 block diagram modified from the old lab2 diagram, showing blocks for the lab4 datapath, lab4 FSM, and how they interact with the 
+remaining lab2 components.
+	
 <h2>Milestone 2</h2>
 At the COB of the day of the second lab period, you should have a working testbench testing your lab4 hardware block diagram.
-When simulating your design, have the testbench supply a mock ready signal (clock at 48 kHz)
-in place of the ready signal generated the Audio_Codec_Wrapper (when put in a testbench,
-the Audio_Codec_Wrapper is not able to generate a ready signal without a lot of 
-extra work).
+When simulating your design, you can have the testbench supply a mock ready signal (clock at 48 kHz)
+in place of the ready signal generated the Audio_Codec_Wrapper.
 <br><br>
 
 When complete, I expect your timing diagram to look similar to the image below 
@@ -248,7 +242,7 @@ Here is an example spreadsheet to create the BRAM initialization text for a 1024
 <h2>README</h2>
 The README writeup should include:
 <ul>
-<li>Milestone 1 products (Design and solutions to the 10 design questions)
+<li>Milestone 1 products (Design and solutions to the 13 design questions)
 <li>Milestone 2 simulation results and description of your method for creating your BRAM look-up tables for your waveforms (also upload any code like spreadsheets used.)
 <li>Proof (such as a stream or youtube video) that you met Required, B, and A functionality (or statement you demonstrated to Dr York), with the date/time.
 For Required functionality, did your audio out work? Include images of your scopeface plots showing
