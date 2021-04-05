@@ -71,12 +71,12 @@ the datapath and control unit. All bus widths and Q formats for registers must b
 
 <br><br>
 The final value for your left and right
-signal you generate will be connected to the Codec's L_Bus_in and R_Bus_in so you can listen to the output tones using ear-buds or a speaker, 
-and will also be sent to your Lab2 O'Scope.
+signal you generate will be connected to the Codec's L_Bus_in and R_Bus_in (signed values) so you can listen to the output tones using ear-buds or a speaker, 
+and will also be sent to your Lab2 O'Scope (unsigned values).
 Since you created an O'Scope in Lab2, you will use this to see your output signal on your monitor. 
 Since your lab4 FSM and lab4 datapath will need the Audio_Codec_Wrapper (with Clock_Wiz_1) and "Ready" signal from Lab2,
-the simpliest design is to put your Lab4 FSM and Lab4 datapath inside your lab2 block diagram.  
-Therefore, you will also turn in a modified Lab2 block diagram with the Lab4 FSM and Lab4 datapath inside for milestone 1.  
+the simpliest design is to put your Lab4 FSM and Lab4 datapath inside your lab2 block diagram (or you can put them outside of the lab2 datapath... your choice).  
+Therefore, you will also turn in a modified Lab2 block diagram showing the interface to the Lab4 FSM and Lab4 datapath for milestone 1.  
 You will not send the audio codec L_bus_out and R_bus_out as inputs to your Lab2 video,  but instead your lab4 datapath interpolator will create
 the L_bus_out and R_bus_out and send this to the Lab2 video.
 Since the lab4 hardware will be using all the buttons and switches, you need to delete the buttons in the Lab2 block diagram for tr_volt and tr_time.
@@ -88,8 +88,11 @@ converted them to unsigned (18-bits) by:
 <ul> 
 <li> data_out_unsigned <= data_out_signed - x20000;
 </ul>
-Your lab2 BRAM and Scopeface are designed based on unsigned values (And the sine wave you initialize in your BRAM for lab4 is most likely unsigned),
-so you will most likely want to do your interpolator math in unsigned values.  This raises 3 issues:
+<br><br>
+For your interpolator datapath, you will either need to do all the math as signed values or all the math as unsigned values. 
+Therefore you need to decided (and show on the block diagrm) if the BRAM LUT you create will be composed of 16-bit signed values or 16-bit unsigned values.
+<br><br>
+If you decide to do all the math using unsigned values, this raises 3 issues:
 <ol> 
 <li> We need to fool the signed multiplier to do unsigned multiplies. Signed numbers are only negative when the MSb is a "1". 
 If the MSb is a '0', it is positive, it is unsigned.  If both operands have a MSb that is '0', 
@@ -205,13 +208,19 @@ You are drawing the wave from column 20 to 620, or 600 pixels.
 remaining lab2 components.
 	
 <h2>Milestone 2</h2>
-At the COB of the day of the second lab period, you should have a working testbench testing your lab4 hardware block diagram.
-When simulating your design, you can have the testbench supply a mock ready signal (clock at 48 kHz)
-in place of the ready signal generated the Audio_Codec_Wrapper.
+At the COB of the day of the second lab period, you should have a working testbench 
+testing your lab4 hardware block diagram and lab4 FSM. When simulating your design, 
+you can have the testbench supply a mock system clock (100 MHz) and a mock ready signal 
+(clock at 48 kHz) in place of the ready signal generated the Audio_Codec_Wrapper. 
 <br><br>
-
-When complete, I expect your timing diagram to look similar to the image below 
-and contain at least:
+You do not need to have your buttons/switches working for this test bench nor interfacing 
+with your lab2 FSM or lab2 datapath.
+<br><br>
+Have the testbench test at least two values of phase_increment, one such that NEXT is greater 
+than BASE and the other such that BASE is greater than NEXT. Also do a simulation that increases 
+the amplitude and one that decreases the amplitude with the amplitude multiplier.
+<br><br>
+When complete, I expect your timing diagram to look similar to the image below and contain at least:
 <ul>	<li>clk
 	<li>reset
 	<li>ready (simulated using CSA statements in teshbench)
@@ -222,10 +231,9 @@ and contain at least:
 	<li>BRAM data out [Base]
 	<li>BRAM data out [Next] (if aiming for B or A functionality)
 	<li>Interpolated Value [Base + (Next - Base)*Offset] (if aiming for B or A functionality)
-	<li>Amplitude coefficient (if aiming for B or A functionality)
+	<li>Amplitude multiplier amount (if aiming for B or A functionality)
 	<li>Multiplied data out (if aiming for B or A functionality)
-	<li>Slide switches
-	<li>Button values
+
 </ul>
 
 Your simulation needs to simulate a button press (and release) to 
