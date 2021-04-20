@@ -60,8 +60,52 @@ We will walk through these steps below.
 <br><img src="./img/lab3-2.jpg"><br><br>
 
 <b>Note:</b>
-In your program, you will provide a user menu (through the terminal), allowing the user
-to adjust the trigger voltage and trigger time. Therefore, you may want to check if the user has hit the
+Remember the Ready signal in the diagram above is coming from the Flag Register (FlagQ). It is assumed
+that you hooked the Ready signal coming from the Audio Codec into the "Set Flag" input to the Flag Register
+and the output of the Flag register FlagQ is the new "Ready" signal coming out of the lab2_dp, and 
+eventually connecting toe Microblaze's interrupt pin.  If you accidentally skip the Flag Register and
+hook the audio codec's Ready signal directly to the interrupt pin, you will find your system plots the
+sinusoid's incorrectly, plotting what looks to be a very high frequency sinusoid instead of the correct frequency. <br><br>
+
+<b>Note:</b>  If your Flag Register is 8-bits wide, you will need to extract the  
+single bit of Q (the std_logic_vector output from the flag register) as the
+interrupt signal (the one set by the Ready signal).  This may require you to extract the one bit Q as a separate 
+signal to connect to the MicroBlaze in your block design. <br><br>
+
+
+
+
+<h2>Hardware</h2>
+
+New for 2021: Quick instructions for creating your Microblaze project can be found in
+<a href="../../hand/Lab3_Install_short_version.pdf">Lab3_Install_short_version.pdf</a>
+which is a combination of “MicroBlaze_Install_Short_Version” and “Lec19_Install_Short_Version”, tailored for lab3
+<br><br>
+For the most part, your hardware you developed in lab2 will be unchanged.
+For controlling your TriggerVolt and TriggerTime, you can either
+<br>
+(1) Retain your Lab2 buttons to control Trigger Volt and Trigger Time, but you must input these
+signals into Microblaze, and be able to display the values on the UART monitor
+<br> or
+<br>
+(2) Control TriggerVolt and TriggerTime from your Microblaze UART keyboard interface (via teraterm)
+ <li>Inside the lab2_dp component, remove the logic driving
+	the triggerVolt and triggerTime signals into the video component.
+	<li>Remove the buttons signal from the lab2 and lab2_dp entities.
+	<li>Remove the buttons signal from the ucf file.
+	<li>Add the triggerVolt and triggerTime signals to the 
+	lab2 and lab2_dp entity descriptions.
+	<li>Drive the triggerTime and triggerVolt inputs on the video
+	component with the corresponding signals on the lab2_dp entity.
+	<li>Setup MicroBlaze slv_regs for microblaze to be able to write to TrigVolt and TrigTime into lab2 datapath ports
+<br><br>
+
+<b>Note:</b>
+Depending on your design, you will want to control some signals (like TrigVolt, TrigTime, Ch1_enb, Ch2_enb)
+from the UART keyboard Terminal
+while your program is running in continuous mode. 
+(You will not want to halt the program in order to change these settings, but rather change them "live").
+Therefore, in your C code "while loop", you may want to check if the user has hit the
 key on the keyboard without having to actually read the key.  For
 these cases, the following command  will prove useful.  Note that
 "uartRegAddr" is a constant, the address of the uart.<br>
@@ -71,39 +115,6 @@ XUartLite_IsReceiveEmpty(uartRegAddr);
 <br><br>
 
 
-
-<h2>Hardware</h2>
-
-New for 2021: Quick instructions for creating your Microblaze project can be found in
-<a href="../../hand/Lab3_Install_short_version.pdf">Lab3_Install_short_version.pdf</a>
-which is a combination of “MicroBlaze_Install_Short_Version” and “Lec19_Install_Short_Version”, tailored for lab3
-
-With the exception of the following Engineering Change Orders (ECO) in 
-the table below, the hardware you developed in lab2 will be unchanged.
-For the following ECO, please refer to the high-level architecture
-in <a href="../lab2/lab2.html">Lab 2</a>.
-
-<table class="table table-striped table-bordered table-condensed">
-<tr><td>Name:	<td>Trigger Voltage, Trigger Time</td></tr>
-<tr><td>Scope:	<td>lab2_dp and lab2</td></tr>
-<tr><td>Type:	<td>Change to the entity descriptions.</td></tr>
-<tr><td>Details:
-<td>
-<ul>	<li>Inside the lab2_dp component, remove the logic driving
-	the triggerVolt and triggerTime signals into the video component.
-	<li>Remove the buttons signal from the lab2 and lab2_dp entities.
-	<li>Remove the buttons signal from the ucf file.
-	<li>Add the triggerVolt and triggerTime signals to the 
-	lab2 and lab2_dp entity descriptions.
-	<li>Drive the triggerTime and triggerVolt inputs on the video
-	component with the corresponding signals on the lab2_dp entity.
-</ul>
-</td></tr>
-</table>
-
-NEW FOR 2021: Instead of doing this ECO, you have the option of retaining your
-Lab2 buttons to control Trigger Volt and Trigger Time, but you must input these
-signals into Microblaze, and be able to display the values on the UART monitor
 
 <h2>Hardware Setup</h2>
 Your first step will be to create a component for your lab2 component in
@@ -126,25 +137,134 @@ The following table should help.
 <tr><td>ready 				<td>tmds 
 <tr><td>ch1_enb, ch2_enb?	<td>tmdsb 
 </table>
+<br><br>
+For the mapping of the MicroBlaze slv_reg to/from lab2 ports, you need to specify not only which 32-bit slv_reg  for each signal, 
+but also which bits are used, and whether it is read/write (in or out to microblaze)
+<br><br>
 
-<h2>Software</h2>
-
+<h2>Implementation and Testing</h2>
+Lessons from previous years:
 <ul>
-<li>All the memory mapped hardware registers will have their names setup
-as #define's with a name ending in "Reg".  
-<li>Any register with bit fields will have the bit index setup as 
-#define's with a name ending in "Bit".
-<li><del>The flagQ and flagClear registers need to be at the same address.</del>
+<li>For all the lab2 signals you are reading into Microblaze AXI registers, add them to your C-code menu, using printf to
+print their values when you type the "?" command.  This is very useful in debugging
+</ul>
+Build your C-code incrementally, with baby-step tests such as these [and add each of these tests as one of your C-code menu options]:
+<ul>
+<li>Draw a horizontal line on channel 1 and a diagonal line on channel 2, by writing the proper values to the BRAM 
+[this test does not require your interface with the audio codec or the interrupt to work, and tests if you can write to the BRAM,
+and see the correct output on the scopeface]
+
+<pre>
+pseudo code:
+        case 'd':     // some of these will be XIL commands
+            for (i=0;i<1024;i++) {
+			   exWrAddr = i; // set BRAM address
+			   exLBus = 185; // row for horz line 
+			                 // need to shift to upper 10bits?
+			   exRBus = i;   // diagnonal line [need to shift?]
+			   exWen = 1;    // write data to address in BRAM
+			   exWen = 0;    // turn off write
+            }
+			break;
+</pre>
+
+
+
+<li>Use polling (polling the ready flag) to grab each sample and write them into your C-array. [this is a good test to see if 
+you are getting the ready flag, able to read live samples, able to clear the flag, and repeat to fill your array]
+
+<pre>
+pseudo code:
+        case 'm':     // some of these will be XIL commands
+            for (i=0;i<1024;i++) {
+              while(flagQ==0){}; //wait on ready
+              array_L[i] = LbusReg; // read audio values
+              array_R[i] = RbusReg;
+              ClearFlag = 1;   //clear the flag
+              ClearFlag = 0;   //release the clear, so can be set again
+            }
+			break;
+</pre>
+
+<li>Use printf to print all the values in your array to the UART terminal [this is a good test to see if you are
+successfully reading audio codec samples in and storing them in your c arrary, or not]
+
+<pre>
+        case 'p':     // some of these will be XIL commands
+for (i=0; i<1024; i++){
+    printf("%x\r\n",Xil_In16(array_L[i]));
+}
+			break;
+</pre>
+
+<li>Write your C-array to BRAM (not triggered) [this is a good test to use, after you fill the array in the test above, 
+to see if you can write it to the BRAM and see it appear on scopeface... and fix any calibration issues]
+<li>Use interrupts (ISR) to fill the C-array with samples  [then use command above to write the array to BRAM]
+<li>Write a command to search through the C-array to find the trigger point, and printf this location to the terminal
+<li>Given this trigger location in the array, write the appropriate data values in the array to the BRAM, so the sine wave appears triggerd.
+<li>Now you have all the pieces to create the "continuous" mode with interrupts and triggering
 </ul>
 
+<br><br>
+
+<b>Note:</b>
+ When you are finding your trigger point in lab3, just like in lab2,
+you need to compare apples to apples.
+If your number in your C-array is 16-bits, it will be a large number in decimal like 26572,
+and this large 16-bit value you will want to write to your BRAM (as your VHDL code will
+later pull out the upper 10 or 9 bits)
+Meanwhile your triggerVolt is a small 10-bit number, like decimal 220.
+So to compare apples to apples in your C-code, (just for the purpose of finding the trigger)
+you might what to change the value in your C-array to the scale of the
+trigger volt by grabbing only its upper 10-bits (or in math, shift right 6 times,
+or divide by 2^6).  Remember, in lab2 you probably also added (or subtracted?) an
+offset like the number like 34 (for the DC offset), so you would also need to add or subtract this
+from either trigvolt or the scale array number when you are doing the search for
+the trigger value.<br><br>
+
+<b>Note:</b>
+In the past, some students in their datapath hooked up L_Bus_out/R_Bus_Out directly to the 18-bit "signed" value 
+coming out of the audio codec, not the 18-bit value converted to "unsigned". 
+If you do this, your sine wave will look strange (or maybe off the screen)... 
+this can also impact your triggering. At some point, you need to convert from signed to unsigned.
+If you didn't do this in your VHDL datapath, you could always do this in your C-code.
+If you are doing this conversion in C, remember you cannot just cast a variable from signed to unsigned. 
+casting to unsigned in C would not do what you want (as we explained back in lab2).  
+For example, if you have a signed value X = -7, and you cast X to an unsigned variable, what would -7 become?   
+Unsigned values must be Zero or greater.  -7 is undefined.  
+If you go back to slide 11 in the lab2.pdf, you can see the pattern of this conversion with the 5 example numbers.
+It looks like all the lower bits stay the same, and only the MSB changes... it flips its value.
+I know two simple ways to flip the MSB (there are some other ways also), either 
+(1) inverting the bit with a bitwise operator like XOR, or 
+(2) adding a special number that keeps all the lower bits the same but only changes the MSB
+For method (2), adding the special number, look at the slide 11, you should be able to figure it out. 
+For method (1), using XOR, ask yourself 
+      (a) what happens to a bit if I XOR it with ZERO?, and 
+      (b) what happens to a bit if I XOR it with ONE?
+<br><br>
+
+<b>Note:</b>
+The XIL in and out functions are either 8-bit, 16-bit, or 32-bit [like Xil_Out16(exWraddr, i],
+while you have some lab2 values that are different sizes (like trigvolt is 10-bits), so you may need to append bits in your VHDL code to make them match
+<br><br>
 
 <h2>Gate Check 1</h2>
+You need to decide if TrigVolt, TrigTime, Ch1_enb, and Ch2_enb will be controlled via buttons on the FGPA board or 
+using the UART keyboard (teraterm) controlling them through Microblaze.
+For this Gate Check you will turn in a revised Lab2_datapath block diagram, correctly showing all these signals
+(and their directions), and adding or removing parts (like button debouncing).
+Also for this Gate Check, you will turn in a mapping of 32 AXI registers (slv_reg) to lab2 signals.
+or the mapping of the MicroBlaze slv_reg to/from lab2 ports, you need to specify not only which 32-bit slv_reg  for each signal, 
+but also which bits are used, and whether it is read/write (in or out to microblaze).
+
+
+<h2>Gate Check 2</h2>
 You need to have all of your Lab 2 functionality implemented with the Microblaze.
 That is, you need to be able to set ExSel to '0' from your microblaze C program and be able to achieve the same 
 functionality as you did in Lab 2.
 
 
-<h2>Gate Check 2</h2>
+<h2>Gate Check 3</h2>
 You need to be able to send UART commands using Tera Term (or another terminal emulator)
 to your FPGA to adjust the trigger on the screen. The trigger on the 
 screen should properly react to moving the trigger either up or down.
@@ -194,11 +314,6 @@ the MicroBlaze will include:
 </ul>
 
 
-<h2>Using one bit from a vector to trigger an interrupt</h2>
-In order to achieve A functionality, this assignment requires you to use a 
-single bit of Q (the std_logic_vector output from the flag register) as the
-interrupt signal.  This may require you to extract the one bit Q as a separate 
-signal to connect to the MicroBlaze in your block design. 
 
 <h2>README</h2>
 <ul>
@@ -231,6 +346,12 @@ For example, you could have a table like this:
 
 <tr>
 <td align="center" colspan="1">Gate Check 2</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1"></td>
+</tr>
+
+<tr>
+<td align="center" colspan="1">Gate Check 3</td>
 <td align="center" colspan="1"></td>
 <td align="center" colspan="1"></td>
 </tr>
@@ -308,7 +429,6 @@ block.
 <td>End of Lesson 22 </td>
 </tr>
 
-
 <tr>
 <td align="center" colspan="1">Gate Check 2</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
@@ -319,12 +439,21 @@ block.
 </tr>
 
 
+<tr>
+<td align="center" colspan="1">Gate Check 3</td>
+<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
+<td align="center" colspan="1"></td>
+<td align="center" colspan="1">10</td>
+<td align="center" colspan="1"></td>
+<td>End of Lesson 24 </td>
+</tr>
+
 
 <tr>
 <td align="center" colspan="1">Required Functionality</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">45</td>
+<td align="center" colspan="1">40</td>
 <td align="center" colspan="1"></td>
 <td>COB L25 </td>
 </tr>
@@ -333,7 +462,7 @@ block.
 <td align="center" colspan="1">A Functionality</td>
 <td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
 <td align="center" colspan="1"></td>
-<td align="center" colspan="1">15</td>
+<td align="center" colspan="1">10</td>
 <td align="center" colspan="1"></td>
 <td>COB L25 </td>
 </tr>
