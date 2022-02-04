@@ -47,7 +47,7 @@ ARCHITECTURE behavior OF lec11_tb IS
 	SIGNAL scan :  std_logic_vector(7 downto 0);
 
    -- Clock period definitions
-   constant clk_period : time := 500 ns;
+   constant clk_period : time := 1 us; -- 500 ns;
 
 
 BEGIN
