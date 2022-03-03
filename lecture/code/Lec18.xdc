@@ -3,7 +3,6 @@
 ### - uncomment the lines corresponding to used pins
 ### - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
 
-
 ## Clock Signal
 #set_property -dict { PACKAGE_PIN R4    IOSTANDARD LVCMOS33 } [get_ports { clk }]; #IO_L13P_T2_MRCC_34 Sch=sysclk
 
