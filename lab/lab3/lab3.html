@@ -131,7 +131,7 @@ Hint: use this spreadsheet: <a href="../../hand/lab3_signal_mapping.xlsx">lab3_s
 <br><br>
 
 <h2>Implementation and Testing</h2>
-Lessons from previous years:
+<br><br> Lessons from previous years:
 <ul>
 <li>For all the lab2 signals you are reading into Microblaze AXI registers, add them to your C-code menu, using printf to
 print their values when you type the "?" command.  This is very useful in debugging
@@ -206,11 +206,27 @@ so the sine wave appears triggerd.
 <li>case 'i': Use interrupts (ISR) to fill the Array_L and Array_R with samples  [then use case 't' and case 'z' above 
 to write the arrays to BRAM] 
 <li>case 'c': Now you have all the pieces to create the "continuous" mode with interrupts 
+<li>Note on the "continuous" mode with interrupts using a linear buffer: Remember Main() and ISR() communicate with each other through global variables.
+<pre> Main() would set a global variable ARRAY_FULL = 0. 
+  Whenever the ISR() wakes up, 
+     It clears the flag ( 1 then 0),  
+     If ARRAY_FULL = 0, then 
+	   the ISR() saves the samples in the array, 
+	   increments the pointer for the next set of samples, 
+	   and eventually when this pointer = 1023, 
+	      the ISR() sets ARRAY_FULL = 1 and 
+		  resets the pointer to zero. 
+  Meanwhile, main() has been polling ARRAY_FULL waiting for it to be == 1. 
+     When it is, main() calls a function to look for the proper trigger location in the array, 
+	 and then another function to copy the correct 620 values in the array to the BRAMs based on the trigger location,
+	 And then main() sets ARRAY_FULL=0, 
+	 and the ISR starts working again...
+</pre>
 </ul>
 
 <br><br>
-b>Lessons learned the hard way in previous years:</b>
-
+<b>More Lessons learned the hard way in previous years:</b>
+<br><br>
 <b>Note:</b>
 Depending on your design, you will want to control some signals (like TrigVolt, TrigTime, Ch1_enb, Ch2_enb)
 from the UART keyboard Terminal
@@ -218,16 +234,30 @@ while your program is running in continuous mode.
 (You will not want to halt the program in order to change these settings, but rather change them "live").
 Therefore, in your C code "while loop", you may want to check if the user has hit the
 key on the keyboard without having to actually read the key.  For
-these cases, the following command  will prove useful.  Note that
+these cases, the  command XUartLite_IsReceiveEmpty()  will prove useful.  Note that
 "uartRegAddr" is a constant, the address of the uart.<br>
 <pre>
-XUartLite_IsReceiveEmpty(uartRegAddr);
+...
+while(1) {   // run forever
+	if (!XUartLite_IsReceiveEmpty(uartRegAddr)) {
+    	c=XUartLite_RecvByte(uartRegAddr);
+		switch(c) {  
+		  ...   // handle case for key press
+		}  // end switch
+	} // end if
+	If (live_mode == 1) {
+		Do live mode...  
+			grab samples from audio codec and put in Array;
+			find trigger location in Array;
+			Write 620 samples from Array to proper location in BRAM;
+	} // end if
+} // end while
 </pre>
 <br><br>
 <b>Note:</b>
  Do NOT have polling FlagQ running at the same time as the ISR, as both would be attempting to clear the Flag, 
  and you may find your system is missing samples, making the wave form plot appear to be a higher frequency
- than it actually is.  One way to protect against this is to have all your polling cases microblaze_disable_interrupts(), then
+ than it actually is.  One way to protect against this is to have all your polling cases disable interrupts with microblaze_disable_interrupts(), then
  microblaze_enable_interrupts() when you are done
  <pre>
 pseudo code:
@@ -285,11 +315,11 @@ For method (1), using XOR, ask yourself
 <br><br>
 
 <b>Note:</b>
-The XIL in and out functions are either 8-bit, 16-bit, or 32-bit [like Xil_Out16(exWraddr, i],
+The XIL in and out functions are either 8-bit, 16-bit, or 32-bit [like Xil_Out16(exWraddr, i)],
 while you have some lab2 values that are different sizes (like trigvolt is 10-bits), so you may need to append bits in your VHDL code to make them match
 <br><br>
 
-b>Note:</b>
+<b>Note:</b>
 Do not doing anything "slow" inside your ISR or while you are polling the samples into the array.  Printf() is very slow.
 Also, writing your array_L values to the BRAM is very slow.  So write your values from the Array_L to the BRAM in a different
 "for loop" than the route that grabs your samples from the audio codec into the Array_L.
