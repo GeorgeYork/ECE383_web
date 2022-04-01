@@ -239,8 +239,12 @@ For example,
 <li> BASE = x0180 = 00000001.10000000b = 1.50d
 <li> so BASE-NEXT should be 2.25d
 <li> and the simulation plot shows 00000010.01000000b = x0240 = 2.25d
-Vivado's testbench simulation plot can help you with this analysis by automatically converting the values into decimal given a certain Q-format.
-<li> To do this, you right-click on a signal name --> select radix --> select Real Settings--> 
+<li> Vivado's testbench simulation plot can help you with this analysis by automatically converting 
+the values into decimal given a certain Q-format. If you do your simulation plot like this
+then you can greatly simplify your mathematical proof to me that your code works by just 
+showing me the expected and actual math values for each step in DECIMAL, and not need to show the
+HEX and BINARY math.
+To do this, you right-click on a signal name --> select radix --> select Real Settings--> 
 select Fixed Point --> select either signed or unsigned, and then choose your binary point
 <li> Here is a plot I made doing this for an example interpolation:
 <br><img src="example_Interpolation.JPG"><br><br>
