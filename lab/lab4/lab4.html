@@ -205,52 +205,56 @@ remaining lab2 components.
 	
 <h2>Milestone 2</h2>
 At the COB of the day of the second lab period, you should have a working testbench 
-testing your lab4 interpolation hardware block diagram and lab4 FSM. When simulating your design, 
+testing your lab4 interpolation hardware block diagram (with your BRAM LUT inside) and lab4 FSM. When simulating your design, 
 you can have the testbench supply a mock system clock (100 MHz) and a mock ready signal 
 (clock at 48 kHz) in place of the ready signal generated the Audio_Codec_Wrapper. 
 <br><br>
 You do not need to have your buttons/switches working for this test bench nor interfacing 
 with your lab2 FSM or lab2 datapath.
 <br><br>
-Have the testbench test the interpolation of at least two cases, one such that NEXT is greater 
+Have the testbench test the interpolation of at least four cases, two cases for positive NEXT and BASE and two
+cases for negative NEXT and BASE, and for each pair of cases hase one such that NEXT is greater 
 than BASE and the other such that BASE is greater than NEXT. Also do a simulation that increases 
 the amplitude and one that decreases the amplitude with the amplitude multiplier.
 <br><br>
 When complete, I expect your timing diagram to contain at least:
-<ul>	<li>clk
-	<li>reset
+<ul>	<li>clk (simulated using CSA statements in testbench)
+	<li>reset (simulated using CSA statements in testbench)
 	<li>ready (simulated using CSA statements in testbench)
 	<li>FSM state
 	<li>Phase increment 
 	<li>Index.Offset register
 	<li>BRAM address
-	<li>BRAM data out [Base]
-	<li>BRAM data out [Next]
-	<li>Delta [(Next - Base)]
-	<li>Delta_times_Offset [(Next - Base)*Offset]	
-	<li>Interpolated Value [Base + (Next - Base)*Offset] 
-	<li>Amplitude multiplier amount 
-	<li>Multiplied data out 
+	<li>BRAM data out [alternating Base and Next]
+	<li>Base
+	<li>Next
+	<li>Delta [Next - Base]
+	<li>Delta_Offset [ Delta*Offset]	
+	<li>Interpolated [Base + Delta*Offset] 
+	<li>Amp_Interpolated [Amplitude * Interpolated] 
 
 </ul>
 You need to describe in words and math what we are seeing in your simulation plot, 
 to justify that your VHDL code is working (do not only include the plot with no description)
-For example,
+For example, from a hypothetical plot
 <ul>
 <li> NEXT = x03C0 = 00000011.11000000b = 3.75d
 <li> BASE = x0180 = 00000001.10000000b = 1.50d
 <li> so BASE-NEXT should be 2.25d
-<li> and the simulation plot shows 00000010.01000000b = x0240 = 2.25d
-<li> Vivado's testbench simulation plot can help you with this analysis by automatically converting 
+<li> and the simulation plot shows x0240 = 00000010.01000000b = 2.25d
+<li> To save you time converting from Hex to Binary to Decimal, Vivado's testbench simulation plot 
+can help you with this analysis by automatically converting 
 the values into decimal given a certain Q-format. If you do your simulation plot like this
 then you can greatly simplify your mathematical proof to me that your code works by just 
 showing me the expected and actual math values for each step in DECIMAL, and not need to show the
 HEX and BINARY math.
 To do this, you right-click on a signal name --> select radix --> select Real Settings--> 
 select Fixed Point --> select either signed or unsigned, and then choose your binary point
-<li> Here is a plot I made doing this for an example interpolation (for UNSIGNED math, not SIGNED):
-<br><img src="example_Interpolation.JPG"><br><br>
+<li> Here is a plot I made doing this for an example signed interpolation:
+<br><img src="simulation_signed_tb.JPG"><br><br>
 </ul>
+<li> Note: the above plot is just a testbench testing the interpolation math. This plot is missing signals 
+clk, reset, ready, FSM state, Phase increment, Index.Offset, BRAM address, BRAM data, which are also needed for Milestone 2.
 
 For Milestone 2, also describe your method for creating your BRAM look-up tables for your waveforms in your README, and upload any code (like spreadsheets or python code) used.
 Here is an example spreadsheet to create the BRAM initialization text for a 1024 entry LUT  
