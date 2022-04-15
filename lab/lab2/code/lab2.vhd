@@ -18,6 +18,7 @@ entity lab2 is
            sda : inout STD_LOGIC;
 		   tmds : out  STD_LOGIC_VECTOR (3 downto 0);
            tmdsb : out  STD_LOGIC_VECTOR (3 downto 0);
+		   switch: in	STD_LOGIC_VECTOR(3 downto 0);
 		   btn: in	STD_LOGIC_VECTOR(4 downto 0));
 end lab2;
 
@@ -46,9 +47,10 @@ begin
 		sw => sw,
 		cw => cw,
 		btn => btn, 
+		switch => switch,
 		exWrAddr => "0000000000",
 		exWen => '0',
-		exSel => '0',
+		exSel => switch(2),
 		Lbus_out => OPEN,
 		Rbus_out => OPEN,
 		exLbus => "0000000000000000",

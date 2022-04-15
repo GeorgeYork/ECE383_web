@@ -48,6 +48,7 @@ ARCHITECTURE behavior OF Lab2_datapath_tb IS
          sw : OUT  std_logic_vector(2 downto 0);
          cw : IN  std_logic_vector(2 downto 0);
          btn : IN  std_logic_vector(4 downto 0);
+		 switch : IN  std_logic_vector(3 downto 0);
          exWrAddr : IN  std_logic_vector(9 downto 0);
          exWen : IN  std_logic;
          exSel : IN  std_logic;
@@ -69,6 +70,7 @@ ARCHITECTURE behavior OF Lab2_datapath_tb IS
    signal BIT_CLK : std_logic := '0';
    signal cw : std_logic_vector(2 downto 0) := (others => '0');
    signal btn : std_logic_vector(4 downto 0) := (others => '0');
+   signal switch : std_logic_vector(3 downto 0) := (others => '0');
    signal exWrAddr : std_logic_vector(9 downto 0) := (others => '0');
    signal exWen : std_logic := '0';
    signal exSel : std_logic := '0';
@@ -119,6 +121,7 @@ BEGIN
           sw => sw,
           cw => cw,
           btn => btn,
+		  switch => switch,
           exWrAddr => exWrAddr,
           exWen => exWen,
           exSel => exSel,

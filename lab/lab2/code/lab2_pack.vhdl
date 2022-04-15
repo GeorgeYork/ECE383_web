@@ -26,6 +26,7 @@ component lab2
            sda : inout STD_LOGIC;
 		   tmds : out  STD_LOGIC_VECTOR (3 downto 0);
            tmdsb : out  STD_LOGIC_VECTOR (3 downto 0);
+		   switch: in	STD_LOGIC_VECTOR(3 downto 0);
 		   btn: in	STD_LOGIC_VECTOR(4 downto 0));
 end component;
 
@@ -81,6 +82,7 @@ component lab2_datapath
 	sw: out std_logic_vector(2 downto 0);
 	cw: in std_logic_vector (2 downto 0);
 	btn: in	STD_LOGIC_VECTOR(4 downto 0);
+	switch: in	STD_LOGIC_VECTOR(3 downto 0);
 	exWrAddr: in std_logic_vector(9 downto 0);
 	exWen, exSel: in std_logic;
 	Lbus_out, Rbus_out: out std_logic_vector(15 downto 0);
