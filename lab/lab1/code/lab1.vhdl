@@ -9,7 +9,8 @@ use IEEE.NUMERIC_STD.ALL;
 entity lab1 is
     Port ( clk : in  STD_LOGIC;
            reset_n : in  STD_LOGIC;
-			  btn: in	STD_LOGIC_VECTOR(4 downto 0);
+		   btn: in	STD_LOGIC_VECTOR(4 downto 0);
+		   switch: in STD_LOGIC_VECTOR(1 downto 0);
            tmds : out  STD_LOGIC_VECTOR (3 downto 0);
            tmdsb : out  STD_LOGIC_VECTOR (3 downto 0));
 end lab1;
@@ -61,9 +62,9 @@ begin
 		row => row, 
 		column => column,
 		ch1 => ch1_wave,
-		ch1_enb => ch1_wave,
+		ch1_enb => switch(0),
 		ch2 => ch2_wave,
-		ch2_enb => ch2_wave); 
+		ch2_enb => switch(1)); 
 
 	
 end structure;
