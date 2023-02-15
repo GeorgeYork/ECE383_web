@@ -178,7 +178,7 @@ as follows: The LAB2 component will produce some data, put it on a data
 line to the MicroBlaze, and then set one of the bits of the flag register. Then, the
 MicroBlaze will, at some point, look at the flag register bit. When it
 sees that the 'set' bit is 1, the MicroBlaze will grab the data from the register and clear the set bit.
-These are just like the flag bits on the MSP 430.
+These are just like the flag bits on the 382 ARM processor.
 Use the following entity declaration for the flag register:
 
 <pre>
@@ -209,10 +209,10 @@ figure out how to port map BRAM.
 <h2>VHDL Code</h2>
 The files below will give you a start on Lab 2.
 <ul>	
-	<li>A package file. Once you insert it in your project, in the source window, click the 'libraries' tab to view it: <a href="./code/lab2_pack.vhdl">lab2_pack.vhdl</a>. I would highly suggest putting all your component declarations here.
+	<li>A package file. Once you insert it in your vivado project, to edit the file, you can find it under Design Sources, expand the VHDL folder, then expand the xil_defaultlib folder, and you can double click lab2_pack.vhdl to edit the file: <a href="./code/lab2_pack.vhdl">lab2_pack.vhdl</a>. I would highly suggest putting all your component declarations here.
 	<li>Overall Lab 2 File: <a href="./code/lab2.vhd">lab2.vhd</a>
 		<ul>
-		<li>Lab 2 Datapath: (you need to create this). This file has BRAM initialization with a dummy signal for the left and right BRAM <a href="./code/BRAM_example_init.vhd">BRAM_example_init.vhd</a>
+		<li>Lab 2 Datapath: <a href="./code/lab2_datapath.vhdl">lab2_datapath.vhdl</a> is a template for you to use. This file has BRAM initialization with a dummy signal for the left and right BRAM 
 			<li>Audio Codec Wrapper: <a href="./code/Audio_Codec_Wrapper.vhd">Audio_Codec_Wrapper.vhd (Audio Codec Wraper for Xilinx Vivado)</a>
 				<ul>
 				<li><a href="./code/i2s_ctl.vhd">i2s_ctl.vhd (I2S Transmitter portion of Audio Codec Wraper for Xilinx Vivado)</a>
@@ -220,7 +220,7 @@ The files below will give you a start on Lab 2.
 				<li><a href="./code/TWICtl.vhd">TWICtl.vhd (TWI Controller portion of Audio Codec Wraper for Xilinx Vivado)</a>
 				<li>You need to add a clocking wizard for the Audio Codec and set the output frequencies to what is required (see comments in the Audio Codec Wrapper file).
 				</ul>
-			<li>lab2_fsm (you need to create this).
+			<li>lab2_fsm: <a href="./code/lab2_fsm.vhdl">lab2_fsm.vhdl</a> is a template for you to use.
 		</ul>
 	<li>Constraint file: <a href="./code/Lab2.xdc">Lab2.xdc </a>
 	<li>All this code is in this ZIP file, plus some extra testbenches: <a href="./code/lab2_code_for_cadets.zip">lab2_code_for_cadets.zip </a>
