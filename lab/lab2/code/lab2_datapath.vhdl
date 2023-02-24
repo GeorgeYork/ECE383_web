@@ -47,8 +47,8 @@ entity lab2_datapath is
     exWen, exSel: in std_logic;
     Lbus_out, Rbus_out: out std_logic_vector(15 downto 0);
     exLbus, exRbus: in std_logic_vector(15 downto 0);
-    flagQ: out std_logic_vector(7 downto 0);   -- do you have an 8-bit flag register or a 1-bit flag register?
-    flagClear: in std_logic_vector(7 downto 0)); -- do you have an 8-bit flag register or a 1-bit flag register?
+    flagQ: out std_logic;   
+    flagClear: in std_logic); 
 end lab2_datapath;
 
 architecture Behavioral of lab2_datapath is

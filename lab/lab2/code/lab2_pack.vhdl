@@ -30,13 +30,6 @@ component lab2
 		   btn: in	STD_LOGIC_VECTOR(4 downto 0));
 end component;
 
-component flagRegister 
-	Generic (N: integer := 8);
-	Port(	clk: in  STD_LOGIC;
-			reset : in  STD_LOGIC;
-			set, clear: in std_logic_vector(N-1 downto 0);
-			Q: out std_logic_vector(N-1 downto 0));
-end component;
 
 --/////////////////////// Audio Codec Wrapper //////////////////////////////////--
 
@@ -87,8 +80,8 @@ component lab2_datapath
 	exWen, exSel: in std_logic;
 	Lbus_out, Rbus_out: out std_logic_vector(15 downto 0);
 	exLbus, exRbus: in std_logic_vector(15 downto 0);
-	flagQ: out std_logic_vector(7 downto 0);
-	flagClear: in std_logic_vector(7 downto 0));
+	flagQ: out std_logic;
+	flagClear: in std_logic);
 
 end component;
 

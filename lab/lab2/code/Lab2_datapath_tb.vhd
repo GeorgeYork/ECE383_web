@@ -56,8 +56,8 @@ ARCHITECTURE behavior OF Lab2_datapath_tb IS
          Rbus_out : OUT  std_logic_vector(15 downto 0);
          exLbus : IN  std_logic_vector(15 downto 0);
          exRbus : IN  std_logic_vector(15 downto 0);
-         flagQ : OUT  std_logic_vector(7 downto 0);
-         flagClear : IN  std_logic_vector(7 downto 0)
+         flagQ : OUT  std_logic;
+         flagClear : IN  std_logic
         );
     END COMPONENT;
     
@@ -76,7 +76,7 @@ ARCHITECTURE behavior OF Lab2_datapath_tb IS
    signal exSel : std_logic := '0';
    signal exLbus : std_logic_vector(15 downto 0) := (others => '0');
    signal exRbus : std_logic_vector(15 downto 0) := (others => '0');
-   signal flagClear : std_logic_vector(7 downto 0) := (others => '0');
+   signal flagClear : std_logic := '0');
 
  	--Outputs
    signal ac_mclk : std_logic;
@@ -90,7 +90,7 @@ ARCHITECTURE behavior OF Lab2_datapath_tb IS
    signal sw : std_logic_vector(2 downto 0);
    signal Lbus_out : std_logic_vector(15 downto 0);
    signal Rbus_out : std_logic_vector(15 downto 0);
-   signal flagQ : std_logic_vector(7 downto 0);
+   signal flagQ : std_logic;
 
    -- Clock period definitions
    constant clk_period : time := 10 ns;  -- Sets clock to ~ 100MHz

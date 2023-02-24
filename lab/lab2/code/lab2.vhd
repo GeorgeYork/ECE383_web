@@ -5,22 +5,21 @@ library UNIMACRO;
 use UNIMACRO.vcomponents.all;
 use work.lab2Parts.all;		
 
-
-entity lab2 is
-    Port ( clk : in  STD_LOGIC;
-           reset_n : in  STD_LOGIC;
-		   ac_mclk : out STD_LOGIC;
-		   ac_adc_sdata : in STD_LOGIC;
-		   ac_dac_sdata : out STD_LOGIC;
-		   ac_bclk : out STD_LOGIC;
-		   ac_lrclk : out STD_LOGIC;
-           scl : inout STD_LOGIC;
-           sda : inout STD_LOGIC;
-		   tmds : out  STD_LOGIC_VECTOR (3 downto 0);
-           tmdsb : out  STD_LOGIC_VECTOR (3 downto 0);
-		   switch: in	STD_LOGIC_VECTOR(3 downto 0);
-		   btn: in	STD_LOGIC_VECTOR(4 downto 0));
-end lab2;
+ entity lab2 is
+     Port ( clk : in  STD_LOGIC;
+            reset_n : in  STD_LOGIC;
+		    ac_mclk : out STD_LOGIC;
+		    ac_adc_sdata : in STD_LOGIC;
+		    ac_dac_sdata : out STD_LOGIC;
+		    ac_bclk : out STD_LOGIC;
+		    ac_lrclk : out STD_LOGIC;
+            scl : inout STD_LOGIC;
+            sda : inout STD_LOGIC;
+		    tmds : out  STD_LOGIC_VECTOR (3 downto 0);
+            tmdsb : out  STD_LOGIC_VECTOR (3 downto 0);
+		    switch: in	STD_LOGIC_VECTOR(3 downto 0);
+		    btn: in	STD_LOGIC_VECTOR(4 downto 0));
+ end lab2;
 
 architecture behavior of lab2 is
 
@@ -56,7 +55,7 @@ begin
 		exLbus => "0000000000000000",
 		exRbus => "0000000000000000",		
 		flagQ => OPEN,
-		flagClear => "00000000");
+		flagClear => '0');
 		
 			  
 	control: lab2_fsm port map( 
