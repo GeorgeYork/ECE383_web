@@ -23,7 +23,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 library UNISIM;
 use UNISIM.VComponents.all;
-use work.lab2Parts.all;		
+	
  
 ENTITY Lab2_datapath_tb IS
 END Lab2_datapath_tb;
@@ -32,34 +32,29 @@ ARCHITECTURE behavior OF Lab2_datapath_tb IS
  
     -- Component Declaration for the Unit Under Test (UUT)
  
-    COMPONENT lab2_datapath
-    PORT(
-         clk : IN  std_logic;
-         reset_n : IN  std_logic;
-         ac_mclk : out STD_LOGIC;
-         ac_adc_sdata : in STD_LOGIC;
-         ac_dac_sdata : out STD_LOGIC;
-         ac_bclk : out STD_LOGIC;
-         ac_lrclk : out STD_LOGIC;
-         scl : inout STD_LOGIC;
-         sda : inout STD_LOGIC;
-         tmds : OUT  std_logic_vector(3 downto 0);
-         tmdsb : OUT  std_logic_vector(3 downto 0);
-         sw : OUT  std_logic_vector(2 downto 0);
-         cw : IN  std_logic_vector(2 downto 0);
-         btn : IN  std_logic_vector(4 downto 0);
-		 switch : IN  std_logic_vector(3 downto 0);
-         exWrAddr : IN  std_logic_vector(9 downto 0);
-         exWen : IN  std_logic;
-         exSel : IN  std_logic;
-         Lbus_out : OUT  std_logic_vector(15 downto 0);
-         Rbus_out : OUT  std_logic_vector(15 downto 0);
-         exLbus : IN  std_logic_vector(15 downto 0);
-         exRbus : IN  std_logic_vector(15 downto 0);
-         flagQ : OUT  std_logic;
-         flagClear : IN  std_logic
-        );
-    END COMPONENT;
+	component lab2_datapath
+		Port ( clk : in  STD_LOGIC;
+		reset_n : in  STD_LOGIC;
+		ac_mclk : out STD_LOGIC;
+		ac_adc_sdata : in STD_LOGIC;
+		ac_dac_sdata : out STD_LOGIC;
+		ac_bclk : out STD_LOGIC;
+		ac_lrclk : out STD_LOGIC;
+		scl : inout STD_LOGIC;
+		sda : inout STD_LOGIC;	
+		tmds : out  STD_LOGIC_VECTOR (3 downto 0);
+		tmdsb : out  STD_LOGIC_VECTOR (3 downto 0);
+		sw: out std_logic_vector(2 downto 0);
+		cw: in std_logic_vector (2 downto 0);
+		btn: in	STD_LOGIC_VECTOR(4 downto 0);
+		switch: in	STD_LOGIC_VECTOR(3 downto 0);
+		exWrAddr: in std_logic_vector(9 downto 0);
+		exWen, exSel: in std_logic;
+		Lbus_out, Rbus_out: out std_logic_vector(15 downto 0);
+		exLbus, exRbus: in std_logic_vector(15 downto 0);
+		flagQ: out std_logic;
+		flagClear: in std_logic);
+	end component;
     
 
    --Inputs
