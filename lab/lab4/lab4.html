@@ -44,10 +44,11 @@ sinusoids, or a waveform from a musical instrument (guitar, piano, or clarinet).
 your responsibility to get the samples for this waveform.  I would suggest
 either deriving the waveform using a program like Python, Java, Matlab, or using a spreadsheet. 
 Here is an example spreadsheet to create the BRAM initialization text for a 1024 entry LUT  
-<a href="SineWaveLUT_1024.xlsx">SineWaveLUT_1024.xlsx</a> which you would need to modify for your size LUT.  
+<a href="SineWaveLUT_1024.xlsx">SineWaveLUT_1024.xlsx</a> which you would need to modify for your size LUT. 
+Here is a MATLAB example:  <a href="BRAM_LUT.m">BRAM_LUT.m</a> and a JAVA example: <a href="BRAM_code.java">BRAM_code.java</a>
 Consult the handout associated with 
 <a href="../../lecture/lecture24.html">lesson 27</a> for more details 
-on how to accomplish this.
+on how to accomplish this. These 3 examples also create an unsigned sine LUT, not a signed LUT, which you might want to modify.
 
 <h2>Requirements</h2>
 While you have the flexibility to design the waveform generator as you see 
@@ -78,7 +79,6 @@ you can use as a starting point.
 The final value for your left (un-interpolated) and right (interpolated)
 signal you generate will be connected to the Codec's L_Bus_in and R_Bus_in (signed values) so you can listen to the output tones using ear-buds or a speaker, 
 and will also be sent to your Lab2 O'Scope, so a good insertion point would be where your lab2 datapath receives the L_Bus_Out and R_Bus_Out (signed values).
-Since you will later want to compare the un-interpolated and interpolated signals, they should both be amplified by the same amount.
 Since you created an O'Scope in Lab2, you will use this to see your output signal on your monitor. 
 Since your lab4 FSM and lab4 datapath will need the Audio_Codec_Wrapper (with Clock_Wiz_1) and "Ready" signal from Lab2,
 put your Lab4 FSM and Lab4 datapath inside your lab2 block diagram (see <a href="Lab4_Block_Diagram.pptx">Lab4_Block_Diagram</a>).  
@@ -134,7 +134,7 @@ to amplify UNSIGNED data, it will not grow centered on row 220.
 Use switch(5:4) to demonstrate your system can generate the 4 different frequencies.
 For required functionality, Interpolation between the output samples is not required.
 The waveform should be played back through the Audio Codec interface on the left channel producing an audible tone on a speaker
- and thw appropriate waveform should be displayed on your lab2 scopeface monitor. Remember to
+ and the appropriate waveform should be displayed on your lab2 scopeface monitor. Remember to
 wait for the ready signal.
 
 <h2>B-level Functionality</h2>
@@ -156,6 +156,10 @@ However, you will need the amplify BASE the same way you amplify the interpolate
 <br><br>
 You may swap A and B functionality if desired.
  
+<h2>Bonus Functionality</h2>
+Modify your design to continuously  create a "chirp" signal, by continuously incrementing the phase increment (with an appropriate time delay 
+between increments), and demonstrate using a speaker. 
+<br><br>
 
 <h2>Milestone 1</h2>
 At the COB of the day of the first lab session, you should have completed your design and uploaded it to bitbucket.
@@ -341,88 +345,54 @@ For example, you could have a table like this:
 <thead>
 <tr>
 <th align="center">Item</th>
-<th align="center">Grade</th>
 <th align="center">Points</th>
-<th align="center">Out of</th>
-<th align="center">Date</th>
-<th>Due</th>
 </tr>
 </thead>
 <tbody>
 
 <tr>
 <td align="center" colspan="1">Milestone #1</td>
-<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">15</td>
-<td align="center" colspan="1"></td>
-<td>COB L28 </td>
 </tr>
 
 <td align="center" colspan="1">Milestone #2</td>
-<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">15</td>
-<td align="center" colspan="1"></td>
-<td>COB L29 </td>
 </tr>
 
 <td align="center" colspan="1">Required Functionality</td>
-<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">30</td>
-<td align="center" colspan="1"></td>
-<td>COB L31 </td>
 </tr>
 
 <tr>
 <td align="center" colspan="1">B Functionality</td>
-<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">10</td>
-<td align="center" colspan="1"></td>
-<td>COB L31 </td>
 </tr>
 
 <tr>
 <td align="center" colspan="1">A Functionality</td>
-<td align="center" colspan="1"><strong>On-Time</strong> ------------------------------------------------------------------ <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">10</td>
-<td align="center" colspan="1"></td>
-<td>COB L31 </td>
 </tr>
+
+<tr>
+<td align="center" colspan="1">Bonus Functionality</td>
+<td align="center" colspan="1">5</td>
+</tr>
+
 <tr>
 <td align="center" colspan="1">Use of Git / Bitbucket</td>
-<td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">5</td>
-<td align="center" colspan="1"></td>
-<td>BOC L32</td>
 </tr>
 <tr>
 <td align="center" colspan="1">Code Style</td>
-<td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">5</td>
-<td align="center" colspan="1"></td>
-<td>BOC L32</td>
 </tr>
 <tr>
 <td align="center" colspan="1">README</td>
-<td align="center" colspan="1"><strong>On-Time:</strong> 0 ---- Check Minus ---- Check ---- Check Plus ---- <strong>Late:</strong> 1Day ---- 2Days ---- 3Days ---- 4+Days</td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1">10</td>
-<td align="center" colspan="1"></td>
-<td>BOC L32</td>
 </tr>
 <tr>
 <td align="center" colspan="1"><strong>Total</strong></td>
-<td align="center" colspan="1"></td>
-<td align="center" colspan="1"></td>
 <td align="center" colspan="1"><strong>100</strong></td>
-<td align="center" colspan="1"></td>
-<td align="center" colspan="1"></td>
 </tr>
 </tbody>
 </table>
