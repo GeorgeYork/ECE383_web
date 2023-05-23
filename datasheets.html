@@ -52,27 +52,6 @@
 	</ul>
 </li></ul>
 
-<h2>Digilent Atlys (old board used in this course)</h2>
-<ul>
-<li><a href="http://www.digilentinc.com/Products/Detail.cfm?Prod=ATLYS">Overview</a></li>
-<li><a href="./datasheets/atlys_rm.pdf">Atlys Board Reference Manual</a>
-	<ul type="a">
-			<li><a href="https://reference.digilentinc.com/_media/atlys:atlys:atlys_rm.pdf">Reference Manual on Digilent Website</a>
-	</ul>
-</li>
-<li><a href="./datasheets/atlys_sch.pdf">Atlys Board Schematic</a>   
-	<ul type="a">
-		<li><a href="https://reference.digilentinc.com/_media/atlys:atlys:atlys_sch.pdf">Schematic on Digilent Website</a>
-	</ul>
-</li>
-<li><a href="./datasheets/AtlysGeneral.ucf">Atlys 
-	Master UCF</a>
-	<ul type="a">
-		<li><a href="http://www.digilentinc.com/Data/Products/ATLYS/AtlysGeneralUCF.zip">UCF Zip File on Digilent Website</a>
-	</ul>
-</li>
-</ul>
-
 
 <h2>MicroBlaze</h2>
 <ul>
@@ -105,7 +84,8 @@
 You can always simulate your design with a Testbench, however, to debug your live code, here are 4 ways to see the live signals:
 <ul>
 <li>You can send a live signal to one of the 8 LEDs on the FPGA board.</li>
-<li>You can "print" a message of the status of signals to the OLED display on the FPGA board. <a href="./datasheets/OLED_example.jpg">OLED Example</a></li>
+<li>You can "print" a message of the status of signals to the OLED display on the FPGA board. ></li>
+<br><img width = 600 src="./datasheets/OLED_example.jpg"><br><br>
 <li>You have 24 GPIO output pins on your FPGA board you could sent live signals to,
 and then display the signals on the Logic Analyzer.</li>
 <li>If you are running Microblaze and have the signals hooked to a microblaze register, you can use "printf" to the UART monitor.</li>
