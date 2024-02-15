@@ -164,13 +164,13 @@ called a flag register. The behavior of the flag register is shown in the table 
 <br>
 
 <table class="table table-striped table-bordered table-condensed">
-<tr><td>reset_n	<td>clk		<td>set	<td>clear	<td>Q+
-<tr><td>0	<td>X		<td>X	<td>X		<td>0
-<tr><td>1	<td>0,1,falling	<td>X	<td>X		<td>Q
-<tr><td>1	<td>rising 	<td>0	<td>0		<td>Q
-<tr><td>1	<td>rising 	<td>1	<td>0		<td>1
-<tr><td>1	<td>rising 	<td>0	<td>1		<td>0
-<tr><td>1	<td>rising 	<td>1	<td>1		<td>X
+<tr><td>clk		<td>reset_n	<td>set	<td>clear	<td>Q+
+<tr><td>0,1,falling	<td>X	<td>X	<td>X		<td>Q
+<tr><td>rising	<td>0		<td>X	<td>X		<td>0
+<tr><td>rising	<td>1 	<td>0	<td>0		<td>Q
+<tr><td>rising	<td>1 	<td>1	<td>0		<td>1
+<tr><td>rising	<td>1 	<td>0	<td>1		<td>0
+<tr><td>rising	<td>1 	<td>1	<td>1		<td>X
 </table>
 
 The 1-bit flag register will interface our lab2 component with a MicroBlaze in lab3
